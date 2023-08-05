@@ -4,27 +4,16 @@ Command: npx gltfjsx@6.2.10 public/models/Avatar.glb
 */
 
 import React, { useEffect, useRef, useState } from "react";
-import { useAnimations, useFBX, useGLTF, useTexture } from "@react-three/drei";
+import { useAnimations, useFBX, useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { useControls } from "leva";
 import * as THREE from "three";
 
 export default function Avatar(props) {
-  const { animation } = props;
-
   const group = useRef();
 
-  const { headfollow, cursorFollow } = useControls({
-    headfollow: false,
-    cursorFollow: false,
-  });
+  const { animation } = props;
+
   const { nodes, materials } = useGLTF("models/Avatar.glb");
-  const [moveRight, setMoveRight] = useState(false);
-  const [moveLeft, setMoveLeft] = useState(false);
-  const [moveFront, setMoveFront] = useState(false);
-  const [moveBack, setMoveBack] = useState(false);
-  const [anim, setAnim] = useState(null);
-  const [qualAnim, setQualAnim] = useState(null);
 
   const { animations: danceAnimation } = useFBX("animations/Dance.fbx");
   const { animations: greetingAnimation } = useFBX("animations/Greet.fbx");
@@ -55,174 +44,10 @@ export default function Avatar(props) {
     group
   );
 
-  useFrame((state) => {
-    if (headfollow) {
-      group.current.getObjectByName("Neck").lookAt(state.camera.position);
-    }
-    if (cursorFollow) {
-      const target = new THREE.Vector3(state.mouse.x, state.mouse.y, 1);
-      group.current.getObjectByName("Spine2").lookAt(target);
-    }
-  });
   useEffect(() => {
-    actions[animation].reset().fadeIn(0.5).play();
-    return () => {
-      actions[animation].reset().fadeOut(0.5);
-    };
+    actions[animation]?.reset().fadeIn(0.5).play();
+    return () => actions[animation].fadeOut(0.5);
   }, [animation]);
-
-  useEffect(() => {
-    if (moveBack | moveFront | moveLeft | moveRight) {
-      actions[animation].reset().fadeOut(0.5);
-      actions["Walk"]?.reset().fadeIn(0.5).play();
-    } else {
-      actions["Walk"]?.reset().fadeOut(0.5);
-      actions["Idle"].reset().play().fadeIn(0.5);
-    }
-  }, [moveBack, moveFront, moveLeft, moveRight]);
-
-  useEffect(() => {
-    let animationTimeout;
-
-    if (anim === true) {
-      if (qualAnim === "Dance") {
-        actions[animation].reset().fadeOut(0.5);
-        actions[qualAnim]?.reset().fadeIn(0.5).play();
-
-        animationTimeout = setTimeout(() => {
-          actions[qualAnim]?.reset().fadeOut(0.5);
-          actions["Idle"]?.reset().fadeIn(0.5).play();
-          setAnim(false);
-        }, 14000);
-      } else if (qualAnim === "Jump") {
-        actions[animation].reset().fadeOut(0.5);
-        actions[qualAnim]?.reset().fadeIn(0.5).play();
-
-        animationTimeout = setTimeout(() => {
-          actions[qualAnim]?.reset().fadeOut(0.5);
-          actions["Idle"]?.reset().fadeIn(0.5).play();
-          setAnim(false);
-        }, 2000);
-      }
-    } else if (anim === false) {
-      actions[qualAnim]?.reset().fadeOut(0.5);
-      actions["Idle"]?.reset().fadeIn(0.5).play();
-    }
-
-    // Limpa o timeout ao desmontar o componente ou ao reexecutar o efeito
-    return () => clearTimeout(animationTimeout);
-  }, [anim]);
-
-  /////////////////////////////////////////////////////////////////////////
-
-  useFrame((direcao) => {
-    // switch (direcao) {
-    //   case moveRight:
-    //     group.current.position.x += 0.04;
-    //     group.current.rotation.y = Math.PI / 2;
-    //     break;
-    //   default:
-    //     break;
-    // }
-    if (moveRight) {
-      group.current.position.x += 0.04;
-      group.current.rotation.y = Math.PI / 2;
-    }
-    if (moveLeft) {
-      group.current.position.x -= 0.04;
-      group.current.rotation.y = -Math.PI / 2;
-    }
-    if (moveBack) {
-      group.current.position.z += 0.04;
-      group.current.rotation.y = -Math.PI * 2;
-    }
-    if (moveFront) {
-      group.current.position.z -= 0.04;
-      group.current.rotation.y = Math.PI;
-    }
-    if (moveFront && moveLeft) {
-      group.current.position.z -= 0.04;
-      group.current.rotation.y = -Math.PI * 0.75;
-    }
-    if (moveFront && moveRight) {
-      group.current.position.z -= 0.04;
-      group.current.rotation.y = Math.PI * 0.75;
-    }
-    if (moveBack && moveLeft) {
-      group.current.position.z += 0.04;
-      group.current.rotation.y = -Math.PI * 0.25;
-    }
-    if (moveBack && moveRight) {
-      group.current.position.z += 0.04;
-      group.current.rotation.y = +Math.PI * 0.25;
-    }
-    if (moveBack && moveFront) {
-      setAnim(null);
-    }
-    if (moveLeft && moveRight) {
-      setAnim(null);
-    }
-  });
-
-  useEffect(() => {
-    const keyDownHandler = (event) => {
-      console.log(event.key);
-      if (event.key === "ArrowRight") {
-        setAnim(false);
-        event.preventDefault();
-        setMoveRight(true);
-      }
-      if (event.key === "ArrowLeft") {
-        setAnim(false);
-        event.preventDefault();
-        setMoveLeft(true);
-      }
-      if (event.key === "ArrowUp") {
-        setAnim(false);
-        event.preventDefault();
-        setMoveFront(true);
-      }
-      if (event.key === "ArrowDown") {
-        setAnim(false);
-        event.preventDefault();
-        setMoveBack(true);
-      }
-      if (event.key === "d") {
-        event.preventDefault();
-        setAnim(true);
-        setQualAnim("Dance");
-        setMoveBack(false);
-        setMoveFront(false);
-        setMoveRight(false);
-        setMoveLeft(false);
-      }
-      if (event.key === "c") {
-        event.preventDefault();
-        setAnim(true);
-        setQualAnim("Jump");
-        setMoveBack(false);
-        setMoveFront(false);
-        setMoveRight(false);
-        setMoveLeft(false);
-      }
-    };
-
-    const keyUpHandler = (event) => {
-      event.preventDefault();
-      setMoveRight(false);
-      setMoveLeft(false);
-      setMoveFront(false);
-      setMoveBack(false);
-    };
-
-    document.addEventListener("keydown", keyDownHandler);
-    document.addEventListener("keyup", keyUpHandler);
-
-    return () => {
-      document.removeEventListener("keydown", keyDownHandler);
-      document.removeEventListener("keyup", keyUpHandler);
-    };
-  }, []);
 
   return (
     <group {...props} ref={group} dispose={null}>
