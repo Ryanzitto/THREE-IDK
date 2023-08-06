@@ -1,4 +1,5 @@
 {
+  "homepage": "https://ryanzitto.github.io/THREE-IDK",
   "name": "r3f-vite-starter",
   "private": true,
   "version": "1.0.0",
@@ -6,7 +7,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh -pages -d dist"
   },
   "dependencies": {
     "@react-three/drei": "9.75.0",
