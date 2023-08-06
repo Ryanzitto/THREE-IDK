@@ -1,4 +1,4 @@
-import { CapsuleCollider, RigidBody } from "@react-three/rapier";
+import { CapsuleCollider, RigidBody, vec3 } from "@react-three/rapier";
 import Avatar from "./Avatar";
 import { useKeyboardControls } from "@react-three/drei";
 import { Controls } from "../App";
@@ -8,7 +8,15 @@ import { useAnimations, useFBX } from "@react-three/drei";
 import { useStoreApp } from "../store";
 
 export const AvatarController = (props) => {
-  const { increasedollarCount, setRandomPosition } = useStoreApp();
+  const {
+    gameStage,
+    setGameStage,
+    increasedollarCount,
+    setRandomPosition,
+    audioIsPlaying,
+    setIsPlaying,
+    removeAllDollars,
+  } = useStoreApp();
 
   const rigidbody = useRef();
   const avatarRef = useRef();
@@ -44,6 +52,7 @@ export const AvatarController = (props) => {
     rigidbody
   );
 
+  const audioPressed = useKeyboardControls((state) => state[Controls.audio]);
   const jumpPressed = useKeyboardControls((state) => state[Controls.jump]);
   const leftPressed = useKeyboardControls((state) => state[Controls.left]);
   const rightPressed = useKeyboardControls((state) => state[Controls.right]);
@@ -54,12 +63,21 @@ export const AvatarController = (props) => {
   const JUMP_FORCE = 0.5;
   const MOVEMENT_SPEED = 0.05;
   const MAX_VEL = 2;
+
   const [actualAnimation, setActualAnimation] = useState("Idle");
+  let audio3 = new Audio("public/audio/magia2.mp3");
 
   useFrame(() => {
     const impulse = { x: 0, y: 0, z: 0 };
     const linearVel = rigidbody.current.linvel();
     let changeRotation = false;
+    if (audioPressed && audioIsPlaying === false) {
+      audio3.play();
+      setIsPlaying(true);
+      setTimeout(() => {
+        setIsPlaying(false);
+      }, 15000);
+    }
     if (jumpPressed && isOnFloor.current) {
       impulse.y = JUMP_FORCE;
       setActualAnimation("Jump");
@@ -97,8 +115,18 @@ export const AvatarController = (props) => {
       const angle = Math.atan2(linearVel.x, linearVel.z);
       avatarRef.current.rotation.y = angle;
     }
+    if (gameStage === "MENU") {
+      setActualAnimation("Dance");
+    }
     rigidbody.current.applyImpulse(impulse, true);
   });
+
+  const resetPosition = () => {
+    rigidbody.current.setTranslation(vec3({ x: 0, y: 0, z: 0 }));
+    avatarRef.current.rotation.y = 0;
+    setGameStage("GAME OVER");
+    removeAllDollars();
+  };
 
   return (
     <group>
@@ -114,6 +142,11 @@ export const AvatarController = (props) => {
             console.log("colidiu com " + other.rigidBodyObject.name);
             setRandomPosition();
             increasedollarCount();
+          }
+        }}
+        onIntersectionEnter={({ other }) => {
+          if (other.rigidBodyObject.name === "void") {
+            resetPosition();
           }
         }}
         position-y={5}

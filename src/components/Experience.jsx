@@ -11,11 +11,29 @@ import { AvatarController } from "./AvatarController";
 import { DollarController } from "./DollarController";
 import { useRef, useEffect } from "react";
 import { useStoreApp } from "../store";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
+
 export const Experience = () => {
   const stage = useRef();
 
-  const { dollarCount } = useStoreApp();
+  const { camera } = useThree();
+  const { dollarCount, gameStage } = useStoreApp();
+  let audio1 = new Audio("public/audio/tutorial.mp3");
+  let audio2 = new Audio("public/audio/magia1.mp3");
+
+  useEffect(() => {
+    if (gameStage === "MENU") {
+      camera.fov = 8;
+    }
+    if (gameStage === "GAME") {
+      camera.fov = 50;
+      audio1.play();
+      setTimeout(() => {
+        audio2.play();
+      }, 30000);
+    }
+    camera.updateProjectionMatrix();
+  }, [gameStage]);
 
   return (
     <>
@@ -35,13 +53,13 @@ export const Experience = () => {
       />
       <Environment preset="apartment" />
       <RigidBody position={[-2.5, 2, -6]} colliders={false} type="fixed">
-        <Text3D size={0.8} font={"public/fonts/Fjalla One_Regular.json"}>
+        <Text3D size={0.8} font={"fonts/Fjalla One_Regular.json"}>
           DOLLARS: {dollarCount}K
           <meshNormalMaterial />
         </Text3D>
       </RigidBody>
 
-      <RigidBody position={[-2.5, 0.5, 0]} colliders={false}>
+      <RigidBody position={[0, 0.5, 0]} colliders={false}>
         <AvatarController />
       </RigidBody>
 
@@ -53,6 +71,10 @@ export const Experience = () => {
         <Box position={[0, -0.6, 0]} args={[11, 1, 10]} ref={stage}>
           <meshNormalMaterial />
         </Box>
+      </RigidBody>
+
+      <RigidBody type="fixed" name="void" colliders={false}>
+        <CuboidCollider position={[0, -3.5, 0]} args={[50, 0.1, 50]} sensor />
       </RigidBody>
     </>
   );

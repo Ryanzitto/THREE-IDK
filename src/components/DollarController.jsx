@@ -6,16 +6,12 @@ import { useStoreApp } from "../store";
 export const DollarController = (props) => {
   const dollarRef = useRef();
   const rigidbody = useRef();
+
   useFrame(() => {
     dollarRef.current.rotation.y += 0.05;
   });
 
-  const {
-    dollarCount,
-    increasedollarCount,
-    setRandomPosition,
-    randomPosition,
-  } = useStoreApp();
+  const { randomPosition } = useStoreApp();
 
   return (
     <group>
