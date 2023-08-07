@@ -12,20 +12,20 @@ import { DollarController } from "./DollarController";
 import { useRef, useEffect } from "react";
 import { useStoreApp } from "../store";
 import { useFrame, useThree } from "@react-three/fiber";
-
 export const Experience = () => {
   const stage = useRef();
 
   const { camera } = useThree();
   const { dollarCount, gameStage } = useStoreApp();
-  let audio1 = new Audio("audio/tutorial.mp3");
-  let audio2 = new Audio("audio/magia1.mp3");
+  const audio1 = new Audio("audio/tutorial.mp3");
+  const audio2 = new Audio("audio/magia1.mp3");
 
   useEffect(() => {
     if (gameStage === "MENU") {
       camera.fov = 8;
     }
     if (gameStage === "GAME") {
+      console.log("entrou aqui");
       camera.fov = 50;
       audio1.play();
       setTimeout(() => {

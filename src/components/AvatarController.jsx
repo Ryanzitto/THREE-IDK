@@ -139,7 +139,6 @@ export const AvatarController = (props) => {
         onCollisionEnter={({ other }) => {
           isOnFloor.current = true;
           if (other.rigidBodyObject.name === "Dollar") {
-            console.log("colidiu com " + other.rigidBodyObject.name);
             setRandomPosition();
             increasedollarCount();
           }

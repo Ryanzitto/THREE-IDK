@@ -14,7 +14,6 @@ export const useStoreApp = create((set) => ({
       2, // Altura constante (ajuste conforme necessário)
       Math.random() * 6 - 2, // Varie de -5 a 5 para abranger toda a área do chão
     ],
-
 }),  
 setGameStage: (payload) => set({ gameStage: payload }),
 setIsPlaying: (payload) => set({ audioIsPlaying: payload }),
