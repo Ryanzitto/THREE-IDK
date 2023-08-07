@@ -18,8 +18,8 @@ export const Experience = () => {
 
   const { camera } = useThree();
   const { dollarCount, gameStage } = useStoreApp();
-  let audio1 = new Audio("public/audio/tutorial.mp3");
-  let audio2 = new Audio("public/audio/magia1.mp3");
+  let audio1 = new Audio("audio/tutorial.mp3");
+  let audio2 = new Audio("audio/magia1.mp3");
 
   useEffect(() => {
     if (gameStage === "MENU") {

@@ -3,7 +3,7 @@ import { useStoreApp } from "../store";
 
 export const Menu = () => {
   const { gameStage, setGameStage } = useStoreApp();
-  let audio = new Audio("public/audio/option.mp3");
+  let audio = new Audio("audio/option.mp3");
   const playAudio = () => {
     audio.play();
   };

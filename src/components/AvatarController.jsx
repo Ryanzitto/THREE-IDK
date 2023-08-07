@@ -65,7 +65,7 @@ export const AvatarController = (props) => {
   const MAX_VEL = 2;
 
   const [actualAnimation, setActualAnimation] = useState("Idle");
-  let audio3 = new Audio("public/audio/magia2.mp3");
+  let audio3 = new Audio("audio/magia2.mp3");
 
   useFrame(() => {
     const impulse = { x: 0, y: 0, z: 0 };
