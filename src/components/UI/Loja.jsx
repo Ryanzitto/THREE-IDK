@@ -1,16 +1,22 @@
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Sky } from "@react-three/drei";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { Physics } from "@react-three/rapier";
 import { Chest } from "../3D/Minecraft_chest";
+import { ChestTeste } from "../3D/Chest2";
 import { Chicken } from "../3D/Chicken";
 import { YoshiEgg } from "../3D/Yoshi_egg";
 import { useState } from "react";
 import { useStoreApp } from "../../store";
-
+import { Dollar } from "../3D/Dollar";
 export const Loja = () => {
   const [filtro, setFiltro] = useState("COIN");
-  const { gameStage, setGameStage } = useStoreApp();
+  const { gameStage, setGameStage, setBuy, productsOnStore } = useStoreApp();
+
+  useEffect(() => {
+    console.log(productsOnStore);
+  }, [productsOnStore]);
+
   return (
     <>
       <div className="w-screen h-screen flex overlayLoja bg-white/40 justify-center items-center backdrop-blur-md">
@@ -22,7 +28,7 @@ export const Loja = () => {
             <h2
               className="font-bold text-xl text-zinc-400 pr-6 cursor-pointer transition-colors hover:text-zinc-500"
               onClick={() => {
-                setGameStage("GAME");
+                setGameStage("MENU");
               }}
             >
               CLOSE
@@ -57,16 +63,26 @@ export const Loja = () => {
           <div className="w-full h-full flex justify-center items-center gap-6">
             {filtro === "COIN" && (
               <>
-                <Product scale={1.5} name={"Yoshi egg"} preco={"100"}>
+                <Product scale={0.5} name={"Dollars"} index={0}>
+                  <group position-y={-0.5}>
+                    <Dollar />
+                  </group>
+                </Product>
+                <Product scale={1.5} name={"Yoshi egg"} preco={"100"} index={1}>
                   <group position-y={-0.5}>
                     <YoshiEgg />
                   </group>
                 </Product>
-                <Product scale={2.5} name={"Chicken"} preco={"500"}>
-                  <Chicken />
+                <Product
+                  scale={0.015}
+                  name={"Minecraft chest"}
+                  preco={"200"}
+                  index={2}
+                >
+                  <ChestTeste />
                 </Product>
-                <Product scale={0.015} name={"Minecraft chest"} preco={"200"}>
-                  <Chest />
+                <Product scale={2.5} name={"Chicken"} preco={"500"} index={3}>
+                  <Chicken />
                 </Product>
               </>
             )}
@@ -82,7 +98,8 @@ export const Loja = () => {
   );
 };
 
-export const Product = ({ children, scale, name, preco }) => {
+export const Product = ({ children, scale, name, preco, index }) => {
+  const { gameStage, setGameStage, setBuy, productsOnStore } = useStoreApp();
   return (
     <>
       <div className="w-64 h-80 bg-white/80 border border-slate-300 rounded-md text-center pt-2">
@@ -111,13 +128,37 @@ export const Product = ({ children, scale, name, preco }) => {
             </Canvas>
           </div>
           <div className="flex gap-2 mt-2">
-            <span className="font-bold text-lg text-zinc-400 ">COST:</span>
-            <span className="font-bold text-lg text-zinc-400 ">{preco}K</span>
+            {productsOnStore[index]?.bought === false && (
+              <>
+                <span className="font-bold text-lg text-zinc-400 ">COST:</span>
+                <span className="font-bold text-lg text-zinc-400 ">
+                  {preco}K
+                </span>
+              </>
+            )}
           </div>
 
-          <button className="mt-2 border border-slate-300 w-[60%] rounded-sm py-2 font-bold text-xl text-zinc-400 tracking-wide duration-[1000ms] hover:bg-zinc-700 hover:text-white hover:border-zinc-700">
-            BUY
-          </button>
+          {productsOnStore[index]?.bought === false && (
+            <button
+              className="mt-2 border border-slate-300 w-[60%] rounded-sm py-2 font-bold text-lg text-zinc-400 tracking-wide duration-[1000ms] hover:bg-zinc-700 hover:text-white hover:border-zinc-700"
+              onClick={() => {
+                setBuy(index);
+              }}
+            >
+              BUY
+            </button>
+          )}
+
+          {productsOnStore[index]?.bought === true && (
+            <button className="mt-2 border border-slate-300 w-[60%] rounded-sm py-2 font-bold text-lg text-zinc-400 tracking-wide duration-[1000ms] hover:bg-zinc-700 hover:text-white hover:border-zinc-700">
+              OBTAINED✔️
+            </button>
+          )}
+          {productsOnStore[index]?.bought === true && (
+            <button className="mt-2 border border-slate-300 w-[60%] rounded-sm py-2 font-bold text-lg text-zinc-400 tracking-wide duration-[1000ms] hover:bg-zinc-700 hover:text-white hover:border-zinc-700">
+              CHOOSE
+            </button>
+          )}
 
           <div className="w-full flex justify-center mt-2">
             <span className="font-bold text-sm text-zinc-400  cursor-pointer transition-colors hover:text-zinc-500">

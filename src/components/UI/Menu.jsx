@@ -20,6 +20,14 @@ export const Menu = () => {
           START GAME
         </button>
         <button
+          onClick={() => {
+            setGameStage("LOJA");
+          }}
+          className="text-white border border-white text-5xl font-bold px-10 py-4 hover:opacity-60 transition-all"
+        >
+          STORE
+        </button>
+        <button
           onClick={playAudio}
           className="text-white border border-white text-5xl font-bold px-10 py-4 hover:opacity-60 transition-all"
         >

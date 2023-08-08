@@ -81,6 +81,7 @@ export const Experience = () => {
       {/* <group position-y={4.9}>
         <ChickenController />
       </group> */}
+
       <RigidBody type="fixed" name="ground" friction={2}>
         <Box position={[0, -0.6, 0]} args={[11, 1, 10]} ref={stage}>
           <meshStandardMaterial color={"#fff"} />

@@ -1,6 +1,6 @@
 import { RigidBody } from "@react-three/rapier";
 import { Chest } from "../3D/Minecraft_chest";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useStoreApp } from "../../store";
 
@@ -13,6 +13,7 @@ export const ChestController = (props) => {
   useFrame(() => {
     chestRef.current.rotation.y += 0.05;
   });
+
   return (
     <group>
       <RigidBody
