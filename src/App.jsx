@@ -4,9 +4,11 @@ import { Physics } from "@react-three/rapier";
 import { Suspense } from "react";
 import { KeyboardControls } from "@react-three/drei";
 import { useMemo } from "react";
-import { Menu } from "./components/Menu";
+import { Menu } from "./components/UI/Menu";
 import { useStoreApp } from "./store";
-import { GameOver } from "./components/GameOver";
+import { GameOver } from "./components/UI/GameOver";
+import { Overlay } from "./components/UI/Overlay";
+import { Loja } from "./components/UI/Loja";
 export const Controls = {
   forward: "forward",
   back: "back",
@@ -36,8 +38,10 @@ function App() {
           </Physics>
         </Suspense>
       </Canvas>
+      <Overlay />
       {gameStage === "MENU" ? <Menu /> : null}
       {gameStage === "GAME OVER" ? <GameOver /> : null}
+      {gameStage === "LOJA" ? <Loja /> : null}
     </KeyboardControls>
   );
 }

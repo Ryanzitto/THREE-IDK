@@ -9,11 +9,7 @@ export const useStoreApp = create((set) => ({
   removeAllDollars: () => set({ dollarCount: 0 }),
   setRandomPosition: () =>
   set({
-    randomPosition: [
-      Math.random() * 9 - 5, // Varie de -5 a 5 para abranger toda a área do chão
-      2, // Altura constante (ajuste conforme necessário)
-      Math.random() * 6 - 2, // Varie de -5 a 5 para abranger toda a área do chão
-    ],
+    randomPosition: [ Math.random() * 9 - 5, 2, Math.random() * 6 - 2],
 }),  
 setGameStage: (payload) => set({ gameStage: payload }),
 setIsPlaying: (payload) => set({ audioIsPlaying: payload }),

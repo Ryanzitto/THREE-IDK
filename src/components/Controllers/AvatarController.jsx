@@ -1,13 +1,14 @@
 import { CapsuleCollider, RigidBody, vec3 } from "@react-three/rapier";
-import Avatar from "./Avatar";
+import Avatar from "../3D/Avatar";
 import { useKeyboardControls } from "@react-three/drei";
-import { Controls } from "../App";
-import { useEffect, useRef, useState } from "react";
+import { Controls } from "../../App";
+import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useAnimations, useFBX } from "@react-three/drei";
-import { useStoreApp } from "../store";
+import { useStoreApp } from "../../store";
 
 export const AvatarController = (props) => {
+  const { animation } = props;
   const {
     gameStage,
     setGameStage,
@@ -21,7 +22,10 @@ export const AvatarController = (props) => {
   const rigidbody = useRef();
   const avatarRef = useRef();
   const isOnFloor = useRef(true);
-  const { animation } = props;
+
+  const JUMP_FORCE = 0.5;
+  const MOVEMENT_SPEED = 0.05;
+  const MAX_VEL = 2;
 
   const { animations: danceAnimation } = useFBX("animations/Dance.fbx");
   const { animations: greetingAnimation } = useFBX("animations/Greet.fbx");
@@ -60,9 +64,6 @@ export const AvatarController = (props) => {
   const forwardPressed = useKeyboardControls(
     (state) => state[Controls.forward]
   );
-  const JUMP_FORCE = 0.5;
-  const MOVEMENT_SPEED = 0.05;
-  const MAX_VEL = 2;
 
   const [actualAnimation, setActualAnimation] = useState("Idle");
   let audio3 = new Audio("audio/magia2.mp3");
@@ -138,7 +139,7 @@ export const AvatarController = (props) => {
         enabledRotations={[false, false, false]}
         onCollisionEnter={({ other }) => {
           isOnFloor.current = true;
-          if (other.rigidBodyObject.name === "Dollar") {
+          if (other.rigidBodyObject.name === "Coin") {
             setRandomPosition();
             increasedollarCount();
           }

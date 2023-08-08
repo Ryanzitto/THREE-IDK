@@ -7,7 +7,7 @@ Source: https://sketchfab.com/3d-models/5-dollars-7f1506efa065479097ef51e5ce4b1b
 Title: 5 dollars
 */
 
-import React, { useRef } from "react";
+import React from "react";
 import { useGLTF } from "@react-three/drei";
 
 export function Dollar(props) {

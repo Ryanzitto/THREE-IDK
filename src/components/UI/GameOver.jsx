@@ -1,11 +1,10 @@
-import { useEffect } from "react";
-import { useStoreApp } from "../store";
+import { useStoreApp } from "../../store";
 
 export const GameOver = () => {
-  const { gameStage, setGameStage } = useStoreApp();
+  const { setGameStage } = useStoreApp();
 
   return (
-    <div className="menu-overlay">
+    <div className="overlay bg-zinc-900/40">
       <div className="menu-content flex flex-col gap-10">
         <h1 className="text-white font-bold text-5xl mb-10">IDK GAME</h1>
         <h1 className="text-white font-bold text-5xl mb-10">
