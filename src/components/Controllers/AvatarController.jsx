@@ -73,11 +73,11 @@ export const AvatarController = (props) => {
     const linearVel = rigidbody.current.linvel();
     let changeRotation = false;
     if (audioPressed && audioIsPlaying === false) {
-      audio3.play();
-      setIsPlaying(true);
-      setTimeout(() => {
-        setIsPlaying(false);
-      }, 15000);
+      // audio3.play();
+      // setIsPlaying(true);
+      // setTimeout(() => {
+      //   setIsPlaying(false);
+      // }, 15000);
     }
     if (jumpPressed && isOnFloor.current) {
       impulse.y = JUMP_FORCE;

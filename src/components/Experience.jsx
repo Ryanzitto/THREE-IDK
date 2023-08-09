@@ -12,12 +12,9 @@ import { DollarController } from "./Controllers/DollarController";
 import { YoshiEggController } from "./Controllers/Yoshi_egg_Controller";
 import { useRef, useEffect } from "react";
 import { useStoreApp } from "../store";
-import { useFrame, useThree } from "@react-three/fiber";
-import { Chest } from "./3D/Minecraft_chest";
+import { useThree } from "@react-three/fiber";
 import { ChestController } from "./Controllers/ChestController";
 import { ChickenController } from "./Controllers/ChickenController";
-import { Chicken } from "./3D/Chicken";
-import { YoshiEgg } from "./3D/Yoshi_egg";
 export const Experience = () => {
   const { gameStage, skinCoinActual, dollarCount } = useStoreApp();
 
