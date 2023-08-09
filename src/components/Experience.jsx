@@ -58,7 +58,7 @@ export const Experience = () => {
       <Environment preset="apartment" />
       <RigidBody position={[-3, 2, -6]} colliders={false} type="fixed">
         <Text3D size={0.8} font={"fonts/Fjalla One_Regular.json"}>
-          DEVCOINS: {dollarCount}K
+          DEVCOINS: {dollarCount}
           <meshNormalMaterial />
         </Text3D>
       </RigidBody>

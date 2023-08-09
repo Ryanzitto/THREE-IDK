@@ -2,20 +2,29 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Sky } from "@react-three/drei";
 import { Suspense, useEffect } from "react";
 import { Physics } from "@react-three/rapier";
-import { Chest } from "../3D/Minecraft_chest";
 import { ChestTeste } from "../3D/Chest2";
 import { Chicken } from "../3D/Chicken";
 import { YoshiEgg } from "../3D/Yoshi_egg";
 import { useState } from "react";
 import { useStoreApp } from "../../store";
 import { Dollar } from "../3D/Dollar";
+
 export const Loja = () => {
   const [filtro, setFiltro] = useState("COIN");
-  const { gameStage, setGameStage, setBuy, productsOnStore } = useStoreApp();
+  const {
+    gameStage,
+    setGameStage,
+    setBuy,
+    productsOnStore,
+    erro,
+    dollarCount,
+    resetErro,
+  } = useStoreApp();
 
   useEffect(() => {
     console.log(productsOnStore);
-  }, [productsOnStore]);
+    console.log(erro);
+  }, [productsOnStore, erro]);
 
   return (
     <>
@@ -23,12 +32,13 @@ export const Loja = () => {
         <div className="w-5/6 h-5/6 rounded-md border border-slate-300 flex flex-col">
           <div className="w-full h-20 flex justify-between items-center border-b border-slate-300 tracking-wider">
             <h1 className="font-bold text-xl text-zinc-400 pl-6 transition-colors hover:text-zinc-500">
-              🛒 WELCOME TO SHOP
+              🛒 WELCOME TO SHOP | {dollarCount} COINS
             </h1>
             <h2
               className="font-bold text-xl text-zinc-400 pr-6 cursor-pointer transition-colors hover:text-zinc-500"
               onClick={() => {
                 setGameStage("MENU");
+                resetErro();
               }}
             >
               CLOSE
@@ -99,7 +109,8 @@ export const Loja = () => {
 };
 
 export const Product = ({ children, scale, name, preco, index }) => {
-  const { gameStage, setGameStage, setBuy, productsOnStore } = useStoreApp();
+  const { gameStage, setGameStage, setBuy, productsOnStore, erro } =
+    useStoreApp();
   return (
     <>
       <div className="w-64 h-80 bg-white/80 border border-slate-300 rounded-md text-center pt-2">
@@ -150,7 +161,7 @@ export const Product = ({ children, scale, name, preco, index }) => {
           )}
 
           {productsOnStore[index]?.bought === true && (
-            <button className="mt-2 border border-slate-300 w-[60%] rounded-sm py-2 font-bold text-lg text-zinc-400 tracking-wide duration-[1000ms] hover:bg-zinc-700 hover:text-white hover:border-zinc-700">
+            <button className="mt-2 w-[60%] rounded-sm py-2 font-bold text-lg text-zinc-400 tracking-wide duration-[1000ms]">
               OBTAINED✔️
             </button>
           )}
@@ -161,9 +172,11 @@ export const Product = ({ children, scale, name, preco, index }) => {
           )}
 
           <div className="w-full flex justify-center mt-2">
-            <span className="font-bold text-sm text-zinc-400  cursor-pointer transition-colors hover:text-zinc-500">
-              {/* erro provavelmente acontece ... */}
-            </span>
+            {erro !== null && erro.index === index && (
+              <span className="font-bold text-sm text-zinc-400  cursor-pointer transition-colors hover:text-zinc-500">
+                {erro.message}
+              </span>
+            )}
           </div>
         </div>
       </div>

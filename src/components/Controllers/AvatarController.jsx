@@ -126,7 +126,6 @@ export const AvatarController = (props) => {
     rigidbody.current.setTranslation(vec3({ x: 0, y: 0, z: 0 }));
     avatarRef.current.rotation.y = 0;
     setGameStage("GAME OVER");
-    removeAllDollars();
   };
 
   return (
