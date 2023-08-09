@@ -19,9 +19,10 @@ import { ChickenController } from "./Controllers/ChickenController";
 import { Chicken } from "./3D/Chicken";
 import { YoshiEgg } from "./3D/Yoshi_egg";
 export const Experience = () => {
+  const { gameStage, skinCoinActual, dollarCount } = useStoreApp();
+
   const stage = useRef();
   const { camera } = useThree();
-  const { dollarCount, gameStage } = useStoreApp();
   const audio1 = new Audio("audio/tutorial.mp3");
   const audio2 = new Audio("audio/magia1.mp3");
 
@@ -56,37 +57,49 @@ export const Experience = () => {
         resolution={256}
       />
       <Environment preset="apartment" />
+
       <RigidBody position={[-3, 2, -6]} colliders={false} type="fixed">
         <Text3D size={0.8} font={"fonts/Fjalla One_Regular.json"}>
           DEVCOINS: {dollarCount}
           <meshNormalMaterial />
         </Text3D>
       </RigidBody>
+
       <RigidBody position={[0, 0.5, 0]} colliders={false}>
         <AvatarController />
       </RigidBody>
+
       <directionalLight intensity={1} />
-      <group position-y={0.1}>
-        <ChestController />
-      </group>
 
-      {/* <group position-y={0.2}>
-        <DollarController />
-      </group>  */}
+      {skinCoinActual === 0 && (
+        <group position-y={0.2}>
+          <DollarController />
+        </group>
+      )}
 
-      {/* <group position-y={0.8}>
-        <YoshiEggController />
-      </group> */}
+      {skinCoinActual === 1 && (
+        <group position-y={0.8}>
+          <YoshiEggController />
+        </group>
+      )}
+      {skinCoinActual === 2 && (
+        <group position-y={0.1}>
+          <ChestController />
+        </group>
+      )}
 
-      {/* <group position-y={4.9}>
-        <ChickenController />
-      </group> */}
+      {skinCoinActual === 3 && (
+        <group position-y={4.9}>
+          <ChickenController />
+        </group>
+      )}
 
       <RigidBody type="fixed" name="ground" friction={2}>
         <Box position={[0, -0.6, 0]} args={[11, 1, 10]} ref={stage}>
           <meshStandardMaterial color={"#fff"} />
         </Box>
       </RigidBody>
+
       <RigidBody type="fixed" name="void" colliders={false}>
         <CuboidCollider position={[0, -3.5, 0]} args={[50, 0.1, 50]} sensor />
       </RigidBody>

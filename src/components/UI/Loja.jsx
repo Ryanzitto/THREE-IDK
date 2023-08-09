@@ -19,12 +19,8 @@ export const Loja = () => {
     erro,
     dollarCount,
     resetErro,
+    productsObtained,
   } = useStoreApp();
-
-  useEffect(() => {
-    console.log(productsOnStore);
-    console.log(erro);
-  }, [productsOnStore, erro]);
 
   return (
     <>
@@ -78,7 +74,7 @@ export const Loja = () => {
                     <Dollar />
                   </group>
                 </Product>
-                <Product scale={1.5} name={"Yoshi egg"} preco={"100"} index={1}>
+                <Product scale={1.5} name={"Yoshi egg"} preco={"25"} index={1}>
                   <group position-y={-0.5}>
                     <YoshiEgg />
                   </group>
@@ -86,12 +82,12 @@ export const Loja = () => {
                 <Product
                   scale={0.015}
                   name={"Minecraft chest"}
-                  preco={"200"}
+                  preco={"50"}
                   index={2}
                 >
                   <ChestTeste />
                 </Product>
-                <Product scale={2.5} name={"Chicken"} preco={"500"} index={3}>
+                <Product scale={2.5} name={"Chicken"} preco={"100"} index={3}>
                   <Chicken />
                 </Product>
               </>
@@ -109,8 +105,20 @@ export const Loja = () => {
 };
 
 export const Product = ({ children, scale, name, preco, index }) => {
-  const { gameStage, setGameStage, setBuy, productsOnStore, erro } =
-    useStoreApp();
+  const {
+    gameStage,
+    setGameStage,
+    setBuy,
+    productsOnStore,
+    erro,
+    setSkinCoin,
+    skinCoinActual,
+  } = useStoreApp();
+
+  useEffect(() => {
+    console.log(productsOnStore);
+    console.log(skinCoinActual);
+  }, [productsOnStore, erro, skinCoinActual]);
   return (
     <>
       <div className="w-64 h-80 bg-white/80 border border-slate-300 rounded-md text-center pt-2">
@@ -166,8 +174,17 @@ export const Product = ({ children, scale, name, preco, index }) => {
             </button>
           )}
           {productsOnStore[index]?.bought === true && (
-            <button className="mt-2 border border-slate-300 w-[60%] rounded-sm py-2 font-bold text-lg text-zinc-400 tracking-wide duration-[1000ms] hover:bg-zinc-700 hover:text-white hover:border-zinc-700">
-              CHOOSE
+            <button
+              className={`text-white mt-2 border border-slate-300 w-[60%] rounded-sm py-2 font-bold text-lg text-zinc-400 tracking-wide duration-[1000ms] ${
+                skinCoinActual === index
+                  ? "bg-zinc-700 text-white/90"
+                  : "hover:bg-zinc-700 hover:text-white hover:border-zinc-700"
+              }`}
+              onClick={() => {
+                setSkinCoin(index);
+              }}
+            >
+              {skinCoinActual === index ? "IN USE" : "USE"}
             </button>
           )}
 

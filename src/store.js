@@ -7,13 +7,16 @@ export const useStoreApp = create((set) => ({
   audioIsPlaying: false,
   productsOnStore: [
   {name: "Dollars", bought: true,},
-  {name: "YoshiEgg", bought: false, price: 100000},
-  {name: "Chest", bought: false, price: 200000},
-  {name: "Chicken", bought: false, price: 500000}],
+  {name: "YoshiEgg", bought: false, price: 25000},
+  {name: "Chest", bought: false, price: 50000},
+  {name: "Chicken", bought: false, price: 100000}],
   productsObtained: [],
   erro: {index: null, message: ""}, 
+  skinCoinActual: 0,
 
   resetErro: () => set(() => ({erro: null})),
+
+  setSkinCoin: (payload) => set(() => ({skinCoinActual: payload})),
 
   increasedollarCount: () => set((state) => ({ dollarCount: state.dollarCount + 1000 })),
 
