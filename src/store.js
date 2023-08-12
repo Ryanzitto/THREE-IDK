@@ -3,6 +3,7 @@ import { create } from "zustand";
 export const useStoreApp = create((set) => ({
   dollarCount: 200000,
   randomPosition: [ 3,  2,  3],
+  randomPositionBall: [ 3,  4,  -2],
   gameStage: "MENU",
   audioIsPlaying: false,
   productsOnStore: [
@@ -25,6 +26,10 @@ export const useStoreApp = create((set) => ({
   setRandomPosition: () =>
   set({
     randomPosition: [ Math.random() * 9 - 5, 2, Math.random() * 6 - 2],
+}),  
+  setRandomPositionBall: () =>
+  set({
+    randomPositionBall: [ Math.random() * 9 - 5, 7, Math.random() * 6 - 2],
 }),  
 
 setGameStage: (payload) => set({ gameStage: payload }),

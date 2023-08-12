@@ -7,9 +7,7 @@ export const GameOver = () => {
     <div className="overlay bg-zinc-900/40">
       <div className="menu-content flex flex-col gap-10">
         <h1 className="text-white font-bold text-5xl mb-10">IDK GAME</h1>
-        <h1 className="text-white font-bold text-5xl mb-10">
-          GAME OVER, BOBÃO!
-        </h1>
+        <h1 className="text-white font-bold text-5xl mb-10">GAME OVER</h1>
         <button
           onClick={() => {
             setGameStage("MENU");

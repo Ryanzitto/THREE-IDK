@@ -1,17 +1,16 @@
 import { useStoreApp } from "../../store";
+
 export const Overlay = () => {
-  const { gameStage, setGameStage } = useStoreApp();
+  const { dollarCount } = useStoreApp();
   return (
     <>
-      <div className="w-screen h-screen flex items-start justify-end overlayLoja pr-6 pt-6 z-50">
-        <div className="bg-white/40 rounded-md w-[150px] h-[50px] flex items-center justify-center">
-          <h1
-            className="text-3xl text-white font-black tracking-widest cursor-pointer transition duration-[1500ms] hover:text-white/60"
-            onClick={() => {
-              setGameStage("LOJA");
-            }}
-          >
-            STORE
+      <div className="flex items-start justify-end overlayLoja pr-6 pt-6 z-50 ">
+        <div className="w-56 h-20 bg-white/80 backdrop-blur-md flex flex-col justify-center items-center rounded-md">
+          <h1 className="text-zinc-500 text-3xl font-black tracking-wider">
+            {dollarCount}
+          </h1>
+          <h1 className="text-zinc-500 text-xl font-bold tracking-wider">
+            DEV-COINS
           </h1>
         </div>
       </div>

@@ -4,19 +4,15 @@ import { useKeyboardControls } from "@react-three/drei";
 import { Controls } from "../../App";
 import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useAnimations, useFBX } from "@react-three/drei";
 import { useStoreApp } from "../../store";
 
 export const AvatarController = (props) => {
-  const { animation } = props;
   const {
     gameStage,
     setGameStage,
     increasedollarCount,
     setRandomPosition,
     audioIsPlaying,
-    setIsPlaying,
-    removeAllDollars,
   } = useStoreApp();
 
   const rigidbody = useRef();
@@ -26,35 +22,6 @@ export const AvatarController = (props) => {
   const JUMP_FORCE = 0.5;
   const MOVEMENT_SPEED = 0.05;
   const MAX_VEL = 2;
-
-  const { animations: danceAnimation } = useFBX("animations/Dance.fbx");
-  const { animations: greetingAnimation } = useFBX("animations/Greet.fbx");
-  const { animations: standingAnimation } = useFBX("animations/Idle.fbx");
-  const { animations: capoeiraAnimation } = useFBX("animations/Capoeira.fbx");
-  const { animations: ginga1Animation } = useFBX("animations/Ginga-1.fbx");
-  const { animations: walkAnimation } = useFBX("animations/Walking.fbx");
-  const { animations: jumpAnimation } = useFBX("animations/Jumping.fbx");
-
-  danceAnimation[0].name = "Dance";
-  greetingAnimation[0].name = "Greet";
-  standingAnimation[0].name = "Idle";
-  capoeiraAnimation[0].name = "Capoeira";
-  ginga1Animation[0].name = "Ginga-1";
-  walkAnimation[0].name = "Walk";
-  jumpAnimation[0].name = "Jump";
-
-  const { actions } = useAnimations(
-    [
-      danceAnimation[0],
-      greetingAnimation[0],
-      standingAnimation[0],
-      capoeiraAnimation[0],
-      ginga1Animation[0],
-      walkAnimation[0],
-      jumpAnimation[0],
-    ],
-    rigidbody
-  );
 
   const audioPressed = useKeyboardControls((state) => state[Controls.audio]);
   const jumpPressed = useKeyboardControls((state) => state[Controls.jump]);
@@ -70,7 +37,7 @@ export const AvatarController = (props) => {
 
   useFrame(() => {
     const impulse = { x: 0, y: 0, z: 0 };
-    const linearVel = rigidbody.current.linvel();
+    const linearVel = rigidbody?.current?.linvel();
     let changeRotation = false;
     if (audioPressed && audioIsPlaying === false) {
       // audio3.play();
@@ -147,10 +114,17 @@ export const AvatarController = (props) => {
           if (other.rigidBodyObject.name === "void") {
             resetPosition();
           }
+          if (other.rigidBodyObject.name === "Ball") {
+            rigidbody.current.applyImpulse({
+              x: -Math.random() * 2,
+              y: Math.random() * 2,
+              z: -Math.random() * 2,
+            });
+          }
         }}
         position-y={5}
       >
-        <CapsuleCollider args={[0.8, 0.4]} position={[0, 1.2, 0]} />
+        <CapsuleCollider args={[0.8, 0.4]} position={[0, 1.15, 0]} />
         <group ref={avatarRef}>
           <Avatar animation={actualAnimation} />
         </group>
