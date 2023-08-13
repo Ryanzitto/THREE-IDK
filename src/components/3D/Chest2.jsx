@@ -17,7 +17,7 @@ export function ChestTeste(props) {
   );
   const { actions } = useAnimations(animations, group);
   return (
-    <group ref={group} {...props} dispose={null}>
+    <group ref={group} rotation-y={-Math.PI * 2.13} {...props} dispose={null}>
       <group name="Sketchfab_Scene">
         <group name="Sketchfab_model" rotation={[-Math.PI / 2, 0, 0]}>
           <group name="chestfbx" rotation={[Math.PI / 2, 0, 0]}>

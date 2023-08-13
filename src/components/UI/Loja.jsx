@@ -114,7 +114,7 @@ export const Loja = () => {
                   </group>
                 </ProductAvatar>
                 <ProductAvatar scale={3} name={"Pirate"} preco={"50"} index={1}>
-                  <group position-y={-1} rotation-x={Math.PI * 2}>
+                  <group position-y={-1.2} rotation-x={Math.PI * 2}>
                     <PirateLoja />
                   </group>
                 </ProductAvatar>

@@ -1,7 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import { Experience } from "./components/Experience";
 import { Physics } from "@react-three/rapier";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense } from "react";
 import { KeyboardControls } from "@react-three/drei";
 import { useMemo } from "react";
 import { Menu } from "./components/UI/Menu";
@@ -9,6 +9,7 @@ import { useStoreApp } from "./store";
 import { GameOver } from "./components/UI/GameOver";
 import { Overlay } from "./components/UI/Overlay";
 import { Loja } from "./components/UI/Loja";
+
 export const Controls = {
   forward: "forward",
   back: "back",
@@ -28,21 +29,6 @@ function App() {
     { name: Controls.right, keys: ["ArrowRight", "KeyD"] },
     { name: Controls.jump, keys: ["Space"] },
   ]);
-
-  let trilha = new Audio("audio/trilha.mp3");
-
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  useEffect(() => {
-    if (gameStage === "GAME" && isPlaying === false) {
-      trilha.play();
-      setIsPlaying(true);
-      trilha.volume = 0.2;
-      setInterval(() => {
-        setIsPlaying(false);
-      }, 210000);
-    }
-  }, [gameStage]);
 
   return (
     <KeyboardControls map={map}>

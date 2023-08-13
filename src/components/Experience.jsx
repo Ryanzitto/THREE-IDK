@@ -3,7 +3,6 @@ import {
   Box,
   ContactShadows,
   OrbitControls,
-  useTexture,
   Sky,
 } from "@react-three/drei";
 import { RigidBody, CuboidCollider } from "@react-three/rapier";
@@ -16,9 +15,8 @@ import { useThree } from "@react-three/fiber";
 import { ChestController } from "./Controllers/ChestController";
 import { ChickenController } from "./Controllers/ChickenController";
 import { PirateController } from "./Controllers/PirateController";
-
 import { BallController } from "./Controllers/ballController";
-
+import * as THREE from "three";
 export const Experience = () => {
   const {
     gameStage,
@@ -28,14 +26,21 @@ export const Experience = () => {
     setExperienceIsMounted,
   } = useStoreApp();
 
+  let trilha = new Audio("audio/trilha.mp3");
+
+  const [isPlaying, setIsPlaying] = useState(false);
+
   const { camera } = useThree();
 
   useEffect(() => {
-    if (gameStage === "MENU") {
-      camera.fov = 8;
-    }
-    if (gameStage === "GAME") {
-      camera.fov = 50;
+    if (gameStage === "GAME" && isPlaying === false) {
+      console.log(gameStage);
+      trilha.play();
+      setIsPlaying(true);
+      trilha.volume = 0.2;
+      setInterval(() => {
+        setIsPlaying(false);
+      }, 210000);
     }
   }, [gameStage]);
 

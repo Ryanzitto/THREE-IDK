@@ -7,13 +7,8 @@ import { useFrame } from "@react-three/fiber";
 import { useStoreApp } from "../../store";
 
 export const AvatarController = (props) => {
-  const {
-    gameStage,
-    setGameStage,
-    increasedollarCount,
-    setRandomPosition,
-    audioIsPlaying,
-  } = useStoreApp();
+  const { gameStage, setGameStage, increasedollarCount, setRandomPosition } =
+    useStoreApp();
 
   const rigidbody = useRef();
   const avatarRef = useRef();
@@ -23,7 +18,6 @@ export const AvatarController = (props) => {
   const MOVEMENT_SPEED = 0.05;
   const MAX_VEL = 2;
 
-  const audioPressed = useKeyboardControls((state) => state[Controls.audio]);
   const jumpPressed = useKeyboardControls((state) => state[Controls.jump]);
   const leftPressed = useKeyboardControls((state) => state[Controls.left]);
   const rightPressed = useKeyboardControls((state) => state[Controls.right]);
@@ -33,19 +27,13 @@ export const AvatarController = (props) => {
   );
 
   const [actualAnimation, setActualAnimation] = useState("Idle");
-  let audio3 = new Audio("audio/magia2.mp3");
+  let dropSound = new Audio("audio/drop.mp3");
+  let hurtSound = new Audio("audio/hurt.mp3");
 
   useFrame(() => {
     const impulse = { x: 0, y: 0, z: 0 };
     const linearVel = rigidbody?.current?.linvel();
     let changeRotation = false;
-    if (audioPressed && audioIsPlaying === false) {
-      // audio3.play();
-      // setIsPlaying(true);
-      // setTimeout(() => {
-      //   setIsPlaying(false);
-      // }, 15000);
-    }
     if (jumpPressed && isOnFloor.current) {
       impulse.y = JUMP_FORCE;
       setActualAnimation("Jump");
@@ -106,20 +94,22 @@ export const AvatarController = (props) => {
         onCollisionEnter={({ other }) => {
           isOnFloor.current = true;
           if (other.rigidBodyObject.name === "Coin") {
+            dropSound.play();
             setRandomPosition();
             increasedollarCount();
           }
-        }}
-        onIntersectionEnter={({ other }) => {
-          if (other.rigidBodyObject.name === "void") {
-            resetPosition();
-          }
           if (other.rigidBodyObject.name === "Ball") {
+            hurtSound.play();
             rigidbody.current.applyImpulse({
               x: -Math.random() * 2,
               y: Math.random() * 2,
               z: -Math.random() * 2,
             });
+          }
+        }}
+        onIntersectionEnter={({ other }) => {
+          if (other.rigidBodyObject.name === "void") {
+            resetPosition();
           }
         }}
         position-y={5}

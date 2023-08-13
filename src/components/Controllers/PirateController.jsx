@@ -41,7 +41,7 @@ export const PirateController = (props) => {
     let changeRotation = false;
     if (jumpPressed && isOnFloor.current) {
       impulse.y = JUMP_FORCE;
-      setActualAnimation("Jump");
+      // setActualAnimation("Jump");
       isOnFloor.current = false;
     }
     if (rightPressed && linearVel.x < MAX_VEL && gameStage === "GAME") {
