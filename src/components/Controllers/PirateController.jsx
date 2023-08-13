@@ -1,5 +1,5 @@
 import { CapsuleCollider, RigidBody, vec3 } from "@react-three/rapier";
-import { Pirate } from "../3D/Pirate";
+import Pirate from "../3D/Pirate";
 import { useKeyboardControls } from "@react-three/drei";
 import { Controls } from "../../App";
 import { useRef, useState } from "react";
@@ -23,7 +23,6 @@ export const PirateController = (props) => {
   const MOVEMENT_SPEED = 0.05;
   const MAX_VEL = 2;
 
-  const audioPressed = useKeyboardControls((state) => state[Controls.audio]);
   const jumpPressed = useKeyboardControls((state) => state[Controls.jump]);
   const leftPressed = useKeyboardControls((state) => state[Controls.left]);
   const rightPressed = useKeyboardControls((state) => state[Controls.right]);
@@ -33,40 +32,34 @@ export const PirateController = (props) => {
   );
 
   const [actualAnimation, setActualAnimation] = useState("Idle");
-  let audio3 = new Audio("audio/magia2.mp3");
+  let dropSound = new Audio("audio/drop.mp3");
+  let hurtSound = new Audio("audio/hurt.mp3");
 
   useFrame(() => {
     const impulse = { x: 0, y: 0, z: 0 };
     const linearVel = rigidbody?.current?.linvel();
     let changeRotation = false;
-    if (audioPressed && audioIsPlaying === false) {
-      // audio3.play();
-      // setIsPlaying(true);
-      // setTimeout(() => {
-      //   setIsPlaying(false);
-      // }, 15000);
-    }
     if (jumpPressed && isOnFloor.current) {
       impulse.y = JUMP_FORCE;
       setActualAnimation("Jump");
       isOnFloor.current = false;
     }
-    if (rightPressed && linearVel.x < MAX_VEL) {
+    if (rightPressed && linearVel.x < MAX_VEL && gameStage === "GAME") {
       impulse.x += MOVEMENT_SPEED;
       setActualAnimation("Walk");
       changeRotation = true;
     }
-    if (leftPressed && linearVel.x > -MAX_VEL) {
+    if (leftPressed && linearVel.x > -MAX_VEL && gameStage === "GAME") {
       impulse.x -= MOVEMENT_SPEED;
       setActualAnimation("Walk");
       changeRotation = true;
     }
-    if (backPressed && linearVel.z < MAX_VEL) {
+    if (backPressed && linearVel.z < MAX_VEL && gameStage === "GAME") {
       impulse.z += MOVEMENT_SPEED;
       setActualAnimation("Walk");
       changeRotation = true;
     }
-    if (forwardPressed && linearVel.z > -MAX_VEL) {
+    if (forwardPressed && linearVel.z > -MAX_VEL && gameStage === "GAME") {
       impulse.z -= MOVEMENT_SPEED;
       setActualAnimation("Walk");
       changeRotation = true;
@@ -106,10 +99,12 @@ export const PirateController = (props) => {
         onCollisionEnter={({ other }) => {
           isOnFloor.current = true;
           if (other.rigidBodyObject.name === "Coin") {
+            dropSound.play();
             setRandomPosition();
             increasedollarCount();
           }
           if (other.rigidBodyObject.name === "Ball") {
+            hurtSound.play();
             rigidbody.current.applyImpulse({
               x: -Math.random() * 2,
               y: Math.random() * 2,

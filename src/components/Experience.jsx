@@ -3,7 +3,6 @@ import {
   Box,
   ContactShadows,
   OrbitControls,
-  Sphere,
   useTexture,
   Sky,
 } from "@react-three/drei";
@@ -11,25 +10,25 @@ import { RigidBody, CuboidCollider } from "@react-three/rapier";
 import { AvatarController } from "./Controllers/AvatarController";
 import { DollarController } from "./Controllers/DollarController";
 import { YoshiEggController } from "./Controllers/Yoshi_egg_Controller";
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useStoreApp } from "../store";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useThree } from "@react-three/fiber";
 import { ChestController } from "./Controllers/ChestController";
 import { ChickenController } from "./Controllers/ChickenController";
 import { PirateController } from "./Controllers/PirateController";
-import { LayerMaterial, Depth } from "lamina";
-import { Trash } from "./3D/Trash";
-import * as THREE from "three";
+
 import { BallController } from "./Controllers/ballController";
 
 export const Experience = () => {
-  const { gameStage, skinCoinActual, dollarCount } = useStoreApp();
+  const {
+    gameStage,
+    skinCoinActual,
+    skinAvatarActual,
+    experienceIsMounted,
+    setExperienceIsMounted,
+  } = useStoreApp();
 
-  let BG_SPEED = 1;
-  const stage = useRef();
   const { camera } = useThree();
-  const audio1 = new Audio("audio/tutorial.mp3");
-  const audio2 = new Audio("audio/magia1.mp3");
 
   useEffect(() => {
     if (gameStage === "MENU") {
@@ -37,15 +36,13 @@ export const Experience = () => {
     }
     if (gameStage === "GAME") {
       camera.fov = 50;
-      // audio1.play();
-      // setTimeout(() => {
-      //   audio2.play();
-      // }, 30000);
     }
-    camera.updateProjectionMatrix();
   }, [gameStage]);
 
-  const texture = useTexture("texture/digital_painting_lofi_city.jpg");
+  useEffect(() => {
+    setExperienceIsMounted(true);
+  }, [experienceIsMounted]);
+
   return (
     <>
       <OrbitControls maxPolarAngle={Math.PI / 2} minPolarAngle={Math.PI / 6} />
@@ -60,10 +57,16 @@ export const Experience = () => {
       />
       <Environment preset="apartment" />
 
-      <RigidBody position={[0, 0.57, 0]} colliders={false}>
-        <PirateController />
-      </RigidBody>
-
+      {skinAvatarActual === 0 && (
+        <RigidBody position={[0, 0.57, 0]} colliders={false}>
+          <AvatarController />
+        </RigidBody>
+      )}
+      {skinAvatarActual === 1 && (
+        <RigidBody position={[0, 0.57, 0]} colliders={false}>
+          <PirateController />
+        </RigidBody>
+      )}
       <directionalLight intensity={0.3} />
 
       {skinCoinActual === 0 && (
@@ -88,7 +91,8 @@ export const Experience = () => {
           <ChickenController />
         </group>
       )}
-      <BallController />
+
+      {gameStage === "GAME" ? <BallController /> : null}
 
       <RigidBody type="fixed" name="Floor">
         <Box position={[0, -0.53, 0]} args={[10, 1, 10]}>
@@ -115,7 +119,7 @@ export const Experience = () => {
       </RigidBody> */}
 
       <RigidBody type="fixed" name="void" colliders={false}>
-        <CuboidCollider position={[0, -3.5, 0]} args={[50, 0.1, 50]} sensor />
+        <CuboidCollider position={[0, -3.5, 0]} args={[500, 0.1, 500]} sensor />
       </RigidBody>
     </>
   );

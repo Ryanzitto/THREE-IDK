@@ -1,39 +1,42 @@
 import { useStoreApp } from "../../store";
 
 export const Menu = () => {
-  const { setGameStage } = useStoreApp();
-  let audio = new Audio("audio/option.mp3");
-  const playAudio = () => {
-    audio.play();
-  };
+  const { setGameStage, experienceIsMounted, setRandomPosition } =
+    useStoreApp();
 
   return (
     <div className="overlay bg-zinc-900/40">
-      <div className="menu-content flex flex-col gap-10">
-        <h1 className="text-white font-bold text-5xl mb-10">IDK GAME</h1>
-        <button
-          onClick={() => {
-            setGameStage("GAME");
-          }}
-          className="text-white border border-white text-5xl font-bold px-10 py-4 hover:opacity-60 transition-all"
-        >
-          START GAME
-        </button>
-        <button
-          onClick={() => {
-            setGameStage("LOJA");
-          }}
-          className="text-white border border-white text-5xl font-bold px-10 py-4 hover:opacity-60 transition-all"
-        >
-          STORE
-        </button>
-        <button
-          onClick={playAudio}
-          className="text-white border border-white text-5xl font-bold px-10 py-4 hover:opacity-60 transition-all"
-        >
-          OPTIONS
-        </button>
-      </div>
+      {experienceIsMounted ? (
+        <div className="menu-content flex flex-col gap-10">
+          <h1 className="text-white font-bold text-5xl mb-10">IDK GAME</h1>
+          <button
+            onClick={() => {
+              setGameStage("GAME");
+              setRandomPosition();
+            }}
+            className="text-white border border-white text-5xl font-bold px-10 py-4 hover:opacity-60 transition-all"
+          >
+            START GAME
+          </button>
+          <button
+            onClick={() => {
+              setGameStage("LOJA");
+            }}
+            className="text-white border border-white text-5xl font-bold px-10 py-4 hover:opacity-60 transition-all"
+          >
+            STORE
+          </button>
+          <button className="text-white border border-white text-5xl font-bold px-10 py-4 hover:opacity-60 transition-all">
+            OPTIONS
+          </button>
+        </div>
+      ) : (
+        <div className="menu-content flex flex-col gap-10">
+          <h1 className="text-white font-bold text-5xl animate-bounce">
+            LOADING THE EXPERIENCE...
+          </h1>
+        </div>
+      )}
     </div>
   );
 };

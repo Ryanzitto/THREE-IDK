@@ -6,7 +6,7 @@ Command: npx gltfjsx@6.2.10 public/models/Pirate.glb
 import React, { useEffect, useRef } from "react";
 import { useAnimations, useFBX, useGLTF } from "@react-three/drei";
 
-export function Pirate(props) {
+export default function Pirate(props) {
   const group = useRef();
 
   const { animation } = props;

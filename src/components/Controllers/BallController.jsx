@@ -26,7 +26,7 @@ export const BallController = (props) => {
     <group>
       <RigidBody
         colliders="hull"
-        name={"Ball"}
+        name="Ball"
         ref={rigidbody}
         position={gameStage === "GAME" ? randomPositionBall : [1, 0, 3]}
         restitution={0.5}

@@ -31,6 +31,9 @@ export const DollarController = (props) => {
           if (other.rigidBodyObject.name === "void") {
             setRandomPosition();
           }
+          if (other.rigidBodyObject.name === "Ball") {
+            setRandomPosition();
+          }
         }}
       >
         <CuboidCollider args={[3, 3, 3]} />

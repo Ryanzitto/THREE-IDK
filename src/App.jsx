@@ -1,7 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import { Experience } from "./components/Experience";
 import { Physics } from "@react-three/rapier";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { KeyboardControls } from "@react-three/drei";
 import { useMemo } from "react";
 import { Menu } from "./components/UI/Menu";
@@ -20,14 +20,29 @@ export const Controls = {
 
 function App() {
   const { gameStage } = useStoreApp();
+
   const map = useMemo(() => [
     { name: Controls.forward, keys: ["ArrowUp", "KeyW"] },
     { name: Controls.back, keys: ["ArrowDown", "KeyS"] },
     { name: Controls.left, keys: ["ArrowLeft", "KeyA"] },
     { name: Controls.right, keys: ["ArrowRight", "KeyD"] },
     { name: Controls.jump, keys: ["Space"] },
-    { name: Controls.audio, keys: ["KeyX"] },
   ]);
+
+  let trilha = new Audio("audio/trilha.mp3");
+
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    if (gameStage === "GAME" && isPlaying === false) {
+      trilha.play();
+      setIsPlaying(true);
+      trilha.volume = 0.2;
+      setInterval(() => {
+        setIsPlaying(false);
+      }, 210000);
+    }
+  }, [gameStage]);
 
   return (
     <KeyboardControls map={map}>
@@ -38,7 +53,7 @@ function App() {
           </Physics>
         </Suspense>
       </Canvas>
-      {/* {gameStage === "GAME" ? <Overlay /> : null} */}
+      {gameStage === "GAME" ? <Overlay /> : null}
       {gameStage === "MENU" ? <Menu /> : null}
       {gameStage === "GAME OVER" ? <GameOver /> : null}
       {gameStage === "LOJA" ? <Loja /> : null}
