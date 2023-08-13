@@ -2,9 +2,9 @@ import { create } from "zustand";
 
 export const useStoreApp = create((set) => ({
   experienceIsMounted: false,
-  dollarCount: 0,
-  randomPosition: [ 3,  2,  3],
-  randomPositionBall: [ 3,  2,  3],
+  dollarCount: 1000000,
+  randomPosition: [ 3,  3,  3],
+  randomPositionBall: [ -2,  2,  1],
   gameStage: "MENU",
   audioIsPlaying: false,
   productsOnStore: [
@@ -15,7 +15,8 @@ export const useStoreApp = create((set) => ({
   productsObtained: [],
   productsOnStore2: [
   {name: "Ryan Dev", bought: true,},
-  {name: "Pirate", bought: false, price: 50000}],
+  {name: "Pirate", bought: false, price: 50000},
+  {name: "Ninja", bought: false, price: 100000}],
   productsObtained2: [],
   erro: {index: null, message: ""}, 
   skinCoinActual: 0,
@@ -34,7 +35,7 @@ export const useStoreApp = create((set) => ({
 
   setRandomPosition: () =>
   set({
-    randomPosition: [ Math.random() * 9 - 5, 2, Math.random() * 6 - 2],
+    randomPosition: [ Math.random() * 9 - 5, 3, Math.random() * 6 - 2],
 }),  
   setRandomPositionBall: () =>
   set({

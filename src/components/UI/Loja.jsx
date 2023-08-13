@@ -10,7 +10,7 @@ import { useStoreApp } from "../../store";
 import { Dollar } from "../3D/Dollar";
 import { AvatarLoja } from "../3D/AvatarLoja";
 import { PirateLoja } from "../3D/PirateLoja";
-
+import { NinjaLoja } from "../3D/NinjaLoja";
 export const Loja = () => {
   const [filtro, setFiltro] = useState("COIN");
   const {
@@ -116,6 +116,11 @@ export const Loja = () => {
                 <ProductAvatar scale={3} name={"Pirate"} preco={"50"} index={1}>
                   <group position-y={-1.2} rotation-x={Math.PI * 2}>
                     <PirateLoja />
+                  </group>
+                </ProductAvatar>
+                <ProductAvatar scale={3} name={"Ninja"} preco={"100"} index={2}>
+                  <group position-y={-1.2} rotation-x={Math.PI * 2}>
+                    <NinjaLoja />
                   </group>
                 </ProductAvatar>
               </>

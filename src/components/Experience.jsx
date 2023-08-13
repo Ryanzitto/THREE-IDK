@@ -19,6 +19,7 @@ import { BallController } from "./Controllers/ballController";
 import { useThree } from "@react-three/fiber";
 import { Ground } from "./3D/Ground";
 import { OutDoor } from "./3D/Outdoor";
+import { NinjaController } from "./Controllers/NinjaController";
 export const Experience = () => {
   const {
     gameStage,
@@ -69,6 +70,11 @@ export const Experience = () => {
       {skinAvatarActual === 1 && (
         <RigidBody position={[0, 0.57, 0]} colliders={false}>
           <PirateController />
+        </RigidBody>
+      )}
+      {skinAvatarActual === 2 && (
+        <RigidBody position={[0, 0.57, 0]} colliders={false}>
+          <NinjaController />
         </RigidBody>
       )}
       <directionalLight intensity={0.3} />
