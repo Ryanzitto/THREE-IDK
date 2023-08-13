@@ -1,7 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import { Experience } from "./components/Experience";
 import { Physics } from "@react-three/rapier";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { KeyboardControls } from "@react-three/drei";
 import { useMemo } from "react";
 import { Menu } from "./components/UI/Menu";
@@ -21,7 +21,6 @@ export const Controls = {
 
 function App() {
   const { gameStage } = useStoreApp();
-
   const map = useMemo(() => [
     { name: Controls.forward, keys: ["ArrowUp", "KeyW"] },
     { name: Controls.back, keys: ["ArrowDown", "KeyS"] },

@@ -11,12 +11,11 @@ import { DollarController } from "./Controllers/DollarController";
 import { YoshiEggController } from "./Controllers/Yoshi_egg_Controller";
 import { useEffect, useState } from "react";
 import { useStoreApp } from "../store";
-import { useThree } from "@react-three/fiber";
 import { ChestController } from "./Controllers/ChestController";
 import { ChickenController } from "./Controllers/ChickenController";
 import { PirateController } from "./Controllers/PirateController";
 import { BallController } from "./Controllers/ballController";
-import * as THREE from "three";
+import { useThree } from "@react-three/fiber";
 export const Experience = () => {
   const {
     gameStage,
@@ -30,8 +29,6 @@ export const Experience = () => {
 
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const { camera } = useThree();
-
   useEffect(() => {
     if (gameStage === "GAME" && isPlaying === false) {
       console.log(gameStage);
@@ -41,6 +38,17 @@ export const Experience = () => {
       setInterval(() => {
         setIsPlaying(false);
       }, 210000);
+    }
+  }, [gameStage]);
+
+  const { camera } = useThree();
+
+  useEffect(() => {
+    console.log(gameStage);
+    if (gameStage === "MENU") {
+      camera.fov = 8;
+    } else {
+      camera.fov = 50;
     }
   }, [gameStage]);
 
