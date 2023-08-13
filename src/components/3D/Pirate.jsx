@@ -22,13 +22,25 @@ export default function Pirate(props) {
   const { animations: danceAnimation } = useFBX(
     "animations/Avatar-2/Dance.fbx"
   );
+  const { animations: jumpAnimation } = useFBX("animations/Avatar-2/Jump.fbx");
+  const { animations: fallAnimation } = useFBX(
+    "animations/Avatar-2/Falling.fbx"
+  );
 
   standingAnimation[0].name = "Idle";
   walkAnimation[0].name = "Walk";
   danceAnimation[0].name = "Dance";
+  jumpAnimation[0].name = "Jump";
+  fallAnimation[0].name = "Fall";
 
   const { actions } = useAnimations(
-    [standingAnimation[0], walkAnimation[0], danceAnimation[0]],
+    [
+      standingAnimation[0],
+      walkAnimation[0],
+      danceAnimation[0],
+      jumpAnimation[0],
+      fallAnimation[0],
+    ],
     group
   );
 

@@ -28,7 +28,7 @@ export const useStoreApp = create((set) => ({
 
   setSkinAvatar: (payload) => set(() => ({skinAvatarActual: payload})),
 
-  increasedollarCount: () => set((state) => ({ dollarCount: state.dollarCount + 1000 })),
+  increasedollarCount: () => set((state) => ({ dollarCount: state.dollarCount + 2000 })),
 
   removeAllDollars: () => set({ dollarCount: 0 }),
 

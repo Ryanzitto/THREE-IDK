@@ -1,21 +1,17 @@
 import { CapsuleCollider, RigidBody, vec3 } from "@react-three/rapier";
 import Pirate from "../3D/Pirate";
-import { useKeyboardControls } from "@react-three/drei";
+import { FaceLandmarkerDefaults, useKeyboardControls } from "@react-three/drei";
 import { Controls } from "../../App";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useStoreApp } from "../../store";
 
 export const PirateController = (props) => {
-  const {
-    gameStage,
-    setGameStage,
-    increasedollarCount,
-    setRandomPosition,
-    audioIsPlaying,
-  } = useStoreApp();
+  const { gameStage, setGameStage, increasedollarCount, setRandomPosition } =
+    useStoreApp();
 
   const rigidbody = useRef();
+  const ref = useRef();
   const avatarRef = useRef();
   const isOnFloor = useRef(true);
 
@@ -41,7 +37,6 @@ export const PirateController = (props) => {
     let changeRotation = false;
     if (jumpPressed && isOnFloor.current) {
       impulse.y = JUMP_FORCE;
-      // setActualAnimation("Jump");
       isOnFloor.current = false;
     }
     if (rightPressed && linearVel.x < MAX_VEL && gameStage === "GAME") {
@@ -105,6 +100,7 @@ export const PirateController = (props) => {
           }
           if (other.rigidBodyObject.name === "Ball") {
             hurtSound.play();
+            isOnFloor.current = false;
             rigidbody.current.applyImpulse({
               x: -Math.random() * 2,
               y: Math.random() * 2,
@@ -119,7 +115,7 @@ export const PirateController = (props) => {
         }}
         position-y={5}
       >
-        <CapsuleCollider args={[0.8, 0.4]} position={[0, 1.35, 0]} />
+        <CapsuleCollider args={[0.8, 0.4]} position={[0, 1.35, 0]} ref={ref} />
         <group ref={avatarRef}>
           <Pirate animation={actualAnimation} />
         </group>

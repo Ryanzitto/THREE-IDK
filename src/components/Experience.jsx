@@ -4,6 +4,7 @@ import {
   ContactShadows,
   OrbitControls,
   Sky,
+  Float,
 } from "@react-three/drei";
 import { RigidBody, CuboidCollider } from "@react-three/rapier";
 import { AvatarController } from "./Controllers/AvatarController";
@@ -16,6 +17,8 @@ import { ChickenController } from "./Controllers/ChickenController";
 import { PirateController } from "./Controllers/PirateController";
 import { BallController } from "./Controllers/ballController";
 import { useThree } from "@react-three/fiber";
+import { Ground } from "./3D/Ground";
+import { OutDoor } from "./3D/Outdoor";
 export const Experience = () => {
   const {
     gameStage,
@@ -31,7 +34,6 @@ export const Experience = () => {
 
   useEffect(() => {
     if (gameStage === "GAME" && isPlaying === false) {
-      console.log(gameStage);
       trilha.play();
       setIsPlaying(true);
       trilha.volume = 0.2;
@@ -41,20 +43,9 @@ export const Experience = () => {
     }
   }, [gameStage]);
 
-  const { camera } = useThree();
-
-  useEffect(() => {
-    console.log(gameStage);
-    if (gameStage === "MENU") {
-      camera.fov = 8;
-    } else {
-      camera.fov = 50;
-    }
-  }, [gameStage]);
-
   useEffect(() => {
     setExperienceIsMounted(true);
-  }, [experienceIsMounted]);
+  }, []);
 
   return (
     <>
@@ -63,9 +54,9 @@ export const Experience = () => {
       <ambientLight intensity={1} />
       <ContactShadows
         opacity={1}
-        scale={10}
+        scale={9.5}
         blur={1}
-        far={10}
+        far={1}
         resolution={256}
       />
       <Environment preset="apartment" />
@@ -107,24 +98,19 @@ export const Experience = () => {
 
       {gameStage === "GAME" ? <BallController /> : null}
 
-      <RigidBody type="fixed" name="Floor">
-        <Box position={[0, -0.53, 0]} args={[10, 1, 10]}>
-          <meshNormalMaterial />
-        </Box>
+      <RigidBody type="fixed" colliders="hull">
+        <group>
+          <Float speed={2} floatIntensity={0.3}>
+            <OutDoor position={[0, 0.5, -5]} />
+          </Float>
+        </group>
       </RigidBody>
 
-      <RigidBody type="fixed">
-        <Box position={[0, -1.7, 0]} args={[9, 1, 9]}>
-          <meshStandardMaterial color={"#8b29e6"} />
-        </Box>
+      <RigidBody type="fixed" name="Floor" colliders="hull">
+        <group rotation-y={-Math.PI / 1}>
+          <Ground position={[5, -0.4, 5]} />
+        </group>
       </RigidBody>
-
-      <RigidBody type="fixed">
-        <Box position={[0, -2.9, 0]} args={[8, 1, 8]}>
-          <meshStandardMaterial color={"#e629bd"} />
-        </Box>
-      </RigidBody>
-
       {/* <RigidBody type="fixed" colliders={false}>
         <Sphere position={[0, 0, 0]} args={[5, 64, 64]} scale={3}>
           <meshStandardMaterial map={texture} side={THREE.BackSide} />

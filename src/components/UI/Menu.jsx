@@ -1,8 +1,7 @@
 import { useStoreApp } from "../../store";
 
 export const Menu = () => {
-  const { setGameStage, experienceIsMounted, setRandomPosition } =
-    useStoreApp();
+  const { setGameStage, experienceIsMounted } = useStoreApp();
 
   return (
     <div className="overlay bg-zinc-900/40">
@@ -12,7 +11,6 @@ export const Menu = () => {
           <button
             onClick={() => {
               setGameStage("GAME");
-              setRandomPosition();
             }}
             className="text-white border border-white text-5xl font-bold px-10 py-4 hover:opacity-60 transition-all"
           >
