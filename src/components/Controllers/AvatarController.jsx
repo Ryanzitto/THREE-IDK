@@ -14,7 +14,7 @@ export const AvatarController = (props) => {
   const avatarRef = useRef();
   const isOnFloor = useRef(true);
 
-  const JUMP_FORCE = 0.5;
+  const JUMP_FORCE = 0.6;
   const MOVEMENT_SPEED = 0.05;
   const MAX_VEL = 2;
 

@@ -21,6 +21,8 @@ import { Ground } from "./3D/Ground";
 import { OutDoor } from "./3D/Outdoor";
 import { NinjaController } from "./Controllers/NinjaController";
 import { MageController } from "./Controllers/MageController";
+import { SpellController } from "./Controllers/SpellController";
+import { Skybox } from "./3D/Skybox";
 export const Experience = () => {
   const {
     gameStage,
@@ -28,7 +30,13 @@ export const Experience = () => {
     skinAvatarActual,
     experienceIsMounted,
     setExperienceIsMounted,
+    floorIsMounted,
+    setFloorIsMounted,
   } = useStoreApp();
+
+  useEffect(() => {
+    console.log(floorIsMounted);
+  }, [floorIsMounted]);
 
   let trilha = new Audio("audio/trilha.mp3");
 
@@ -36,12 +44,12 @@ export const Experience = () => {
 
   useEffect(() => {
     if (gameStage === "GAME" && isPlaying === false) {
-      // trilha.play();
-      // setIsPlaying(true);
-      // trilha.volume = 0.2;
-      // setInterval(() => {
-      //   setIsPlaying(false);
-      // }, 210000);
+      trilha.play();
+      setIsPlaying(true);
+      trilha.volume = 0.2;
+      setInterval(() => {
+        setIsPlaying(false);
+      }, 210000);
     }
   }, [gameStage]);
 
@@ -52,7 +60,6 @@ export const Experience = () => {
   return (
     <>
       <OrbitControls maxPolarAngle={Math.PI / 2} minPolarAngle={Math.PI / 6} />
-      <Sky />
       <ambientLight intensity={1} />
       <ContactShadows
         opacity={1}
@@ -61,71 +68,66 @@ export const Experience = () => {
         far={1}
         resolution={256}
       />
-      <Environment preset="apartment" />
 
-      {skinAvatarActual === 0 && (
-        <RigidBody position={[0, 0.57, 0]} colliders={false}>
-          <AvatarController />
-        </RigidBody>
-      )}
-      {skinAvatarActual === 1 && (
-        <RigidBody position={[0, 0.57, 0]} colliders={false}>
-          <PirateController />
-        </RigidBody>
-      )}
-      {skinAvatarActual === 2 && (
-        <RigidBody position={[0, 0.57, 0]} colliders={false}>
-          <NinjaController />
-        </RigidBody>
-      )}
       <directionalLight intensity={0.3} />
 
-      {skinCoinActual === 0 && (
-        <group position-y={0.2}>
-          <DollarController />
-        </group>
-      )}
-
-      {skinCoinActual === 1 && (
-        <group position-y={0.8}>
-          <YoshiEggController />
-        </group>
-      )}
-      {skinCoinActual === 2 && (
-        <group position-y={0.1}>
-          <ChestController />
-        </group>
-      )}
-
-      {skinCoinActual === 3 && (
-        <group position-y={4.9}>
-          <ChickenController />
-        </group>
-      )}
-      <group position={[0, 0, 0]}>
-        <MageController />
-      </group>
-
-      {/* {gameStage === "GAME" ? <BallController /> : null} */}
-
-      <RigidBody type="fixed" colliders="hull">
+      {floorIsMounted === true && (
         <group>
-          <Float speed={2} floatIntensity={0.3}>
-            <OutDoor position={[0, 0.5, -5]} />
-          </Float>
-        </group>
-      </RigidBody>
+          {skinAvatarActual === 0 && (
+            <RigidBody position={[0, 0.57, 0]} colliders={false}>
+              <AvatarController />
+            </RigidBody>
+          )}
+          {skinAvatarActual === 1 && (
+            <RigidBody position={[0, 0.57, 0]} colliders={false}>
+              <PirateController />
+            </RigidBody>
+          )}
+          {skinAvatarActual === 2 && (
+            <RigidBody position={[0, 0.57, 0]} colliders={false}>
+              <NinjaController />
+            </RigidBody>
+          )}
 
+          {skinCoinActual === 0 && (
+            <group position-y={0.2}>
+              <DollarController />
+            </group>
+          )}
+
+          {skinCoinActual === 1 && (
+            <group position-y={0.8}>
+              <YoshiEggController />
+            </group>
+          )}
+          {skinCoinActual === 2 && (
+            <group position-y={0.1}>
+              <ChestController />
+            </group>
+          )}
+
+          {skinCoinActual === 3 && (
+            <group position-y={4.9}>
+              <ChickenController />
+            </group>
+          )}
+
+          <MageController />
+
+          <SpellController />
+
+          {gameStage === "GAME" ? <BallController /> : null}
+        </group>
+      )}
       <RigidBody type="fixed" name="Floor" colliders="hull">
         <group rotation-y={-Math.PI / 1}>
           <Ground position={[5, -0.4, 5]} />
         </group>
       </RigidBody>
-      {/* <RigidBody type="fixed" colliders={false}>
-        <Sphere position={[0, 0, 0]} args={[5, 64, 64]} scale={3}>
-          <meshStandardMaterial map={texture} side={THREE.BackSide} />
-        </Sphere>
-      </RigidBody> */}
+
+      <RigidBody type="fixed" colliders={false}>
+        <Skybox />
+      </RigidBody>
 
       <RigidBody type="fixed" name="void" colliders={false}>
         <CuboidCollider position={[0, -3.5, 0]} args={[500, 0.1, 500]} sensor />

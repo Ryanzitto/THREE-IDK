@@ -7,24 +7,19 @@ import React, { useEffect, useRef } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 
 export function Mage(props) {
+  const { animation } = props;
   const group = useRef();
   const { nodes, materials, animations } = useGLTF("models/Mage.glb");
   const { actions } = useAnimations(animations, group);
 
   useEffect(() => {
-    console.log(actions);
-    console.log(materials);
-    console.log(nodes);
+    nodes.Spellbook.visible = false;
   }, []);
 
   useEffect(() => {
-    actions["Spellcast_Long"]?.reset().fadeIn(0.5).play();
-    return () => actions[animations]?.fadeOut(0.5);
-  }, [animations]);
-
-  useEffect(() => {
-    console.log((nodes.Spellbook.visible = false));
-  }, []);
+    actions[animation]?.reset().fadeIn(0.5).play();
+    return () => actions[animation]?.fadeOut(0.5);
+  }, [animation]);
 
   return (
     <group ref={group} {...props} dispose={null}>

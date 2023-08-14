@@ -7,10 +7,15 @@ Source: https://sketchfab.com/3d-models/pillar-cap-indiana-limestonetm-5f698c732
 Title: PILLAR CAP - INDIANA LIMESTONE™
 */
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useGLTF } from "@react-three/drei";
-
+import { useStoreApp } from "../../store";
 export function Ground(props) {
+  const { setFloorIsMounted } = useStoreApp();
+  useEffect(() => {
+    setFloorIsMounted(true);
+  }, []);
+
   const { nodes, materials } = useGLTF("models/ground.glb");
   return (
     <group {...props} dispose={null}>

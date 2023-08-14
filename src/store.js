@@ -5,6 +5,7 @@ export const useStoreApp = create((set) => ({
   dollarCount: 0,
   randomPosition: [ 3,  3,  3],
   randomPositionBall: [ -2,  2,  1],
+  randomPositionMage: [ -3,  2, -4],
   gameStage: "MENU",
   audioIsPlaying: false,
   productsOnStore: [
@@ -21,7 +22,11 @@ export const useStoreApp = create((set) => ({
   erro: {index: null, message: ""}, 
   skinCoinActual: 0,
   skinAvatarActual: 0,
+  floorIsMounted: false,
 
+  setFloorIsMounted: (payload) => set(() => ({floorIsMounted: payload})),
+  
+  resetErro: () => set(() => ({erro: null})),
   setExperienceIsMounted: (payload) => set(() => ({experienceIsMounted: payload})),
   resetErro: () => set(() => ({erro: null})),
 
@@ -40,6 +45,10 @@ export const useStoreApp = create((set) => ({
   setRandomPositionBall: () =>
   set({
     randomPositionBall: [ Math.random() * 9 - 5, 7, Math.random() * 6 - 2],
+}),  
+  setRandomPositionMage: () =>
+  set({
+    randomPositionMage: [ Math.random() * 8 -4, 0, -6],
 }),  
 
 setGameStage: (payload) => set({ gameStage: payload }),
