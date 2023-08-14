@@ -20,6 +20,7 @@ import { useThree } from "@react-three/fiber";
 import { Ground } from "./3D/Ground";
 import { OutDoor } from "./3D/Outdoor";
 import { NinjaController } from "./Controllers/NinjaController";
+import { MageController } from "./Controllers/MageController";
 export const Experience = () => {
   const {
     gameStage,
@@ -35,12 +36,12 @@ export const Experience = () => {
 
   useEffect(() => {
     if (gameStage === "GAME" && isPlaying === false) {
-      trilha.play();
-      setIsPlaying(true);
-      trilha.volume = 0.2;
-      setInterval(() => {
-        setIsPlaying(false);
-      }, 210000);
+      // trilha.play();
+      // setIsPlaying(true);
+      // trilha.volume = 0.2;
+      // setInterval(() => {
+      //   setIsPlaying(false);
+      // }, 210000);
     }
   }, [gameStage]);
 
@@ -101,8 +102,11 @@ export const Experience = () => {
           <ChickenController />
         </group>
       )}
+      <group position={[0, 0, 0]}>
+        <MageController />
+      </group>
 
-      {gameStage === "GAME" ? <BallController /> : null}
+      {/* {gameStage === "GAME" ? <BallController /> : null} */}
 
       <RigidBody type="fixed" colliders="hull">
         <group>

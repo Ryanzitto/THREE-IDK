@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 export const useStoreApp = create((set) => ({
   experienceIsMounted: false,
-  dollarCount: 1000000,
+  dollarCount: 0,
   randomPosition: [ 3,  3,  3],
   randomPositionBall: [ -2,  2,  1],
   gameStage: "MENU",
@@ -35,7 +35,7 @@ export const useStoreApp = create((set) => ({
 
   setRandomPosition: () =>
   set({
-    randomPosition: [ Math.random() * 9 - 5, 3, Math.random() * 6 - 2],
+    randomPosition: [ Math.random() * 8.5 - 5, 3, Math.random() * 6 - 2],
 }),  
   setRandomPositionBall: () =>
   set({

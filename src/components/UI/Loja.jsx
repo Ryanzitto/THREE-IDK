@@ -143,10 +143,12 @@ export const ProductCoin = ({ children, scale, name, preco, index }) => {
     skinCoinActual,
   } = useStoreApp();
 
+  const [mounted, setMounted] = useState();
+
   useEffect(() => {
-    console.log(productsOnStore);
-    console.log(skinCoinActual);
-  }, [productsOnStore, erro, skinCoinActual]);
+    setMounted(true);
+  }, []);
+
   return (
     <>
       <div className="w-64 h-80 bg-white/80 border border-slate-300 rounded-md text-center pt-2">
@@ -157,23 +159,34 @@ export const ProductCoin = ({ children, scale, name, preco, index }) => {
           Coin skin
         </span>
         <div className="w-full flex justify-center flex flex-col justify-center items-center">
-          <div className="w-32 h-32 pt-4">
-            <Canvas className="rounded-md">
-              <Suspense>
-                <Physics>
-                  <OrbitControls
-                    maxPolarAngle={Math.PI / 2}
-                    minPolarAngle={Math.PI / 6}
-                    autoRotate
-                    rotateSpeed={1}
-                  />
-                  <Sky />
-                  <ambientLight intensity={1} />
-                  <group scale={scale}>{children}</group>
-                </Physics>
-              </Suspense>
-            </Canvas>
-          </div>
+          {mounted ? (
+            <div className="w-32 h-32 pt-4">
+              <Canvas className="rounded-md">
+                <Suspense>
+                  <Physics>
+                    <OrbitControls
+                      maxPolarAngle={Math.PI / 2}
+                      minPolarAngle={Math.PI / 6}
+                      autoRotate
+                      rotateSpeed={1}
+                    />
+                    <Sky />
+                    <ambientLight intensity={1} />
+                    <group scale={scale}>{children}</group>
+                  </Physics>
+                </Suspense>
+              </Canvas>
+            </div>
+          ) : (
+            <div
+              class="inline-block h-16 w-16 mt-6 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+              role="status"
+            >
+              <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                Loading...
+              </span>
+            </div>
+          )}
           <div className="flex gap-2 mt-2">
             {productsOnStore[index]?.bought === false && (
               <>
@@ -239,6 +252,11 @@ export const ProductAvatar = ({ children, scale, name, preco, index }) => {
     skinAvatarActual,
   } = useStoreApp();
 
+  const [mounted, setMounted] = useState();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   return (
     <>
       <div className="w-64 h-80 bg-white/80 border border-slate-300 rounded-md text-center pt-2">
@@ -249,23 +267,35 @@ export const ProductAvatar = ({ children, scale, name, preco, index }) => {
           Coin skin
         </span>
         <div className="w-full flex justify-center flex flex-col justify-center items-center">
-          <div className="w-32 h-32 pt-4">
-            <Canvas className="rounded-md">
-              <Suspense>
-                <Physics>
-                  <OrbitControls
-                    maxPolarAngle={Math.PI / 2}
-                    minPolarAngle={Math.PI / 6}
-                    autoRotate
-                    rotateSpeed={1}
-                  />
-                  <Sky />
-                  <ambientLight intensity={1} />
-                  <group scale={scale}>{children}</group>
-                </Physics>
-              </Suspense>
-            </Canvas>
-          </div>
+          {mounted ? (
+            <div className="w-32 h-32 pt-4">
+              <Canvas className="rounded-md">
+                <Suspense>
+                  <Physics>
+                    <OrbitControls
+                      maxPolarAngle={Math.PI / 2}
+                      minPolarAngle={Math.PI / 6}
+                      autoRotate
+                      rotateSpeed={1}
+                    />
+                    <Sky />
+                    <ambientLight intensity={1} />
+                    <group scale={scale}>{children}</group>
+                  </Physics>
+                </Suspense>
+              </Canvas>
+            </div>
+          ) : (
+            <div
+              class="inline-block h-16 w-16 mt-6 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+              role="status"
+            >
+              <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                Loading...
+              </span>
+            </div>
+          )}
+
           <div className="flex gap-2 mt-2">
             {productsOnStore2[index]?.bought === false && (
               <>

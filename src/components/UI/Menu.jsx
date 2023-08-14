@@ -24,9 +24,6 @@ export const Menu = () => {
           >
             STORE
           </button>
-          {/* <button className="text-white border border-white text-5xl font-bold px-10 py-4 hover:opacity-60 transition-all">
-            OPTIONS
-          </button> */}
         </div>
       ) : (
         <div className="menu-content flex flex-col gap-10">

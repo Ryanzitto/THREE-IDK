@@ -38,7 +38,7 @@ function App() {
           </Physics>
         </Suspense>
       </Canvas>
-      {gameStage === "GAME" ? <Overlay /> : null}
+      {/* {gameStage === "GAME" ? <Overlay /> : null} */}
       {gameStage === "MENU" ? <Menu /> : null}
       {gameStage === "GAME OVER" ? <GameOver /> : null}
       {gameStage === "LOJA" ? <Loja /> : null}
