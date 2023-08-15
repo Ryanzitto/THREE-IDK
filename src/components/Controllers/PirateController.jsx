@@ -1,6 +1,6 @@
 import { CapsuleCollider, RigidBody, vec3 } from "@react-three/rapier";
 import Pirate from "../3D/Pirate";
-import { FaceLandmarkerDefaults, useKeyboardControls } from "@react-three/drei";
+import { useKeyboardControls } from "@react-three/drei";
 import { Controls } from "../../App";
 import { useEffect, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
@@ -15,7 +15,7 @@ export const PirateController = (props) => {
   const avatarRef = useRef();
   const isOnFloor = useRef(true);
 
-  const JUMP_FORCE = 0.5;
+  const JUMP_FORCE = 0.7;
   const MOVEMENT_SPEED = 0.05;
   const MAX_VEL = 2;
 

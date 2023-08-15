@@ -1,6 +1,6 @@
-import { RigidBody, CuboidCollider, vec3 } from "@react-three/rapier";
+import { RigidBody, CuboidCollider } from "@react-three/rapier";
 import { Dollar } from "../3D/Dollar";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useStoreApp } from "../../store";
 
@@ -8,15 +8,21 @@ export const DollarController = (props) => {
   const dollarRef = useRef();
   const rigidbody = useRef();
 
-  const resetPosition = () => {
-    rigidbody.current.setTranslation(vec3({ x: 0, y: 0, z: 0 }));
-  };
-
   const { randomPosition, setRandomPosition } = useStoreApp();
 
   useFrame(() => {
     dollarRef.current.rotation.y += 0.05;
   });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRandomPosition();
+    }, 10000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <group>

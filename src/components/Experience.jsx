@@ -1,29 +1,23 @@
-import {
-  Environment,
-  Box,
-  ContactShadows,
-  OrbitControls,
-  Sky,
-  Float,
-} from "@react-three/drei";
+import { ContactShadows, OrbitControls } from "@react-three/drei";
 import { RigidBody, CuboidCollider } from "@react-three/rapier";
 import { AvatarController } from "./Controllers/AvatarController";
 import { DollarController } from "./Controllers/DollarController";
 import { YoshiEggController } from "./Controllers/Yoshi_egg_Controller";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useStoreApp } from "../store";
 import { ChestController } from "./Controllers/ChestController";
 import { ChickenController } from "./Controllers/ChickenController";
 import { PirateController } from "./Controllers/PirateController";
 import { BallController } from "./Controllers/ballController";
-import { useThree } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { Ground } from "./3D/Ground";
-import { OutDoor } from "./3D/Outdoor";
 import { NinjaController } from "./Controllers/NinjaController";
 import { MageController } from "./Controllers/MageController";
 import { SpellController } from "./Controllers/SpellController";
 import { Skybox } from "./3D/Skybox";
 export const Experience = () => {
+  const skyRef = useRef();
+
   const {
     gameStage,
     skinCoinActual,
@@ -42,6 +36,11 @@ export const Experience = () => {
 
   const [isPlaying, setIsPlaying] = useState(false);
 
+  const speed = 0.001;
+  useFrame(() => {
+    skyRef.current.rotation.y += speed;
+  });
+
   useEffect(() => {
     if (gameStage === "GAME" && isPlaying === false) {
       trilha.play();
@@ -56,7 +55,6 @@ export const Experience = () => {
   useEffect(() => {
     setExperienceIsMounted(true);
   }, []);
-
   return (
     <>
       <OrbitControls maxPolarAngle={Math.PI / 2} minPolarAngle={Math.PI / 6} />
@@ -112,9 +110,9 @@ export const Experience = () => {
             </group>
           )}
 
-          <MageController />
+          {gameStage === "GAME" ? <MageController /> : null}
 
-          <SpellController />
+          {gameStage === "GAME" ? <SpellController /> : null}
 
           {gameStage === "GAME" ? <BallController /> : null}
         </group>
@@ -126,7 +124,9 @@ export const Experience = () => {
       </RigidBody>
 
       <RigidBody type="fixed" colliders={false}>
-        <Skybox />
+        <group ref={skyRef}>
+          <Skybox />
+        </group>
       </RigidBody>
 
       <RigidBody type="fixed" name="void" colliders={false}>

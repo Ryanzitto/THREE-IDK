@@ -1,11 +1,11 @@
 import { RigidBody, CuboidCollider } from "@react-three/rapier";
 import { Spell } from "../3D/Spell";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useStoreApp } from "../../store";
 
 export const SpellController = (props) => {
-  const { setRandomPositionMage, randomPositionMage } = useStoreApp();
+  const { randomPositionMage } = useStoreApp();
   const spellRef = useRef();
   const rigidbody = useRef();
   const speed = 10;
@@ -21,17 +21,24 @@ export const SpellController = (props) => {
     rigidbody.current.applyImpulse(impulse, true);
   });
 
+  let spellSound = new Audio("audio/Spell.wav");
+
+  useEffect(() => {
+    spellSound.play();
+  }, [randomPositionMage]);
+
   return (
     <RigidBody
       ref={rigidbody}
       name={"Spell"}
       position={randomPositionMage}
+      position-z={-5}
       colliders={false}
       enabledRotations={[false, false, false]}
       type="hull"
     >
       <group ref={spellRef}>
-        <CuboidCollider args={[0.5, 0.5, 2]} />
+        <CuboidCollider args={[0.3, 0.3, 1]} />
         <group position={[0, -0.5, -1]}>
           <Spell />
         </group>

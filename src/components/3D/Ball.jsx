@@ -7,7 +7,7 @@ Source: https://sketchfab.com/3d-models/beach-ball-25e1816c0e22444bb62816d3999d1
 Title: Beach Ball
 */
 
-import React, { useRef } from "react";
+import React from "react";
 import { useGLTF } from "@react-three/drei";
 
 export function Ball(props) {

@@ -9,7 +9,6 @@ Title: Fire Animation
 
 import React, { useRef, useEffect } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
 
 export function Spell(props) {
   const group = useRef();
@@ -22,7 +21,7 @@ export function Spell(props) {
   }, []);
 
   return (
-    <group ref={group} {...props} dispose={null}>
+    <group ref={group} scale={0.7} {...props} dispose={null}>
       <group name="Sketchfab_Scene" position-y={0.5} rotation-x={-Math.PI / 2}>
         <group
           name="Sketchfab_model"

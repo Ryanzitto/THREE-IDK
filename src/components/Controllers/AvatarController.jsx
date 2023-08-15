@@ -14,7 +14,7 @@ export const AvatarController = (props) => {
   const avatarRef = useRef();
   const isOnFloor = useRef(true);
 
-  const JUMP_FORCE = 0.6;
+  const JUMP_FORCE = 0.7;
   const MOVEMENT_SPEED = 0.05;
   const MAX_VEL = 2;
 
@@ -36,7 +36,6 @@ export const AvatarController = (props) => {
     let changeRotation = false;
     if (jumpPressed && isOnFloor.current) {
       impulse.y = JUMP_FORCE;
-      setActualAnimation("Jump");
       isOnFloor.current = false;
     }
     if (rightPressed && linearVel.x < MAX_VEL) {
@@ -105,6 +104,9 @@ export const AvatarController = (props) => {
               y: Math.random() * 2,
               z: -Math.random() * 2,
             });
+          }
+          if (other.rigidBodyObject.name === "Spell") {
+            hurtSound.play();
           }
         }}
         onIntersectionEnter={({ other }) => {

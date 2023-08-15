@@ -7,7 +7,7 @@ Source: https://sketchfab.com/3d-models/minecraft-chicken-2968358f83af441db2b8e7
 Title: Minecraft - Chicken
 */
 
-import React, { useRef } from "react";
+import React from "react";
 import { useGLTF } from "@react-three/drei";
 
 export function Chicken(props) {

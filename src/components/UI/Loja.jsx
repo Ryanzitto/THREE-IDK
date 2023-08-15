@@ -11,6 +11,7 @@ import { Dollar } from "../3D/Dollar";
 import { AvatarLoja } from "../3D/AvatarLoja";
 import { PirateLoja } from "../3D/PirateLoja";
 import { NinjaLoja } from "../3D/NinjaLoja";
+
 export const Loja = () => {
   const [filtro, setFiltro] = useState("COIN");
   const {

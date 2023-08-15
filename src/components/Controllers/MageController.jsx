@@ -1,9 +1,6 @@
-import { CuboidCollider, RigidBody, vec3 } from "@react-three/rapier";
+import { CuboidCollider, RigidBody } from "@react-three/rapier";
 import { Mage } from "../3D/Mage";
-import { useKeyboardControls } from "@react-three/drei";
-import { Controls } from "../../App";
 import { useEffect, useRef, useState } from "react";
-import { useFrame } from "@react-three/fiber";
 import { useStoreApp } from "../../store";
 
 export const MageController = (props) => {

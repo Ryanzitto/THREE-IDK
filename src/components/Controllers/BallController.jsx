@@ -1,7 +1,6 @@
-import { RigidBody, CapsuleCollider } from "@react-three/rapier";
+import { RigidBody } from "@react-three/rapier";
 import { Ball } from "../3D/Ball";
-import { useEffect, useRef, useState } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useEffect, useRef } from "react";
 import { useStoreApp } from "../../store";
 
 export const BallController = (props) => {
@@ -15,7 +14,7 @@ export const BallController = (props) => {
     rigidbody.current.applyImpulse({ x: -Math.random() * 1.5, y: 0, z: 0 });
     const timerId = setTimeout(() => {
       setRandomPositionBall();
-    }, 5000);
+    }, 10000);
 
     return () => {
       clearTimeout(timerId);

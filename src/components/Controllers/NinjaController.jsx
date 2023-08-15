@@ -11,11 +11,10 @@ export const NinjaController = (props) => {
     useStoreApp();
 
   const rigidbody = useRef();
-  const ref = useRef();
   const avatarRef = useRef();
   const isOnFloor = useRef(true);
 
-  const JUMP_FORCE = 0.5;
+  const JUMP_FORCE = 0.7;
   const MOVEMENT_SPEED = 0.05;
   const MAX_VEL = 2;
 
