@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useStoreApp } from "../../store";
 import { YoshiEgg } from "../3D/Yoshi_egg";
-
+import { useEffect } from "react";
 export const YoshiEggController = (props) => {
   const chestRef = useRef();
   const rigidbody = useRef();

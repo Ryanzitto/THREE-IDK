@@ -265,7 +265,7 @@ export const ProductAvatar = ({ children, scale, name, preco, index }) => {
           {name}
         </span>
         <span className="font-semibold text-md text-zinc-400 transition-colors">
-          Coin skin
+          Avatar skin
         </span>
         <div className="w-full flex justify-center flex flex-col justify-center items-center">
           {mounted ? (

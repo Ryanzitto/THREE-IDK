@@ -1,5 +1,5 @@
 import { RigidBody, CuboidCollider } from "@react-three/rapier";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useStoreApp } from "../../store";
 import { Chicken } from "../3D/Chicken";
