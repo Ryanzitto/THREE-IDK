@@ -1,7 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import { Experience } from "./components/Experience";
 import { Physics } from "@react-three/rapier";
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 import { KeyboardControls } from "@react-three/drei";
 import { useMemo } from "react";
 import { Menu } from "./components/UI/Menu";
@@ -9,6 +9,7 @@ import { useStoreApp } from "./store";
 import { GameOver } from "./components/UI/GameOver";
 import { Overlay } from "./components/UI/Overlay";
 import { Loja } from "./components/UI/Loja";
+import { LoadingScreen } from "./components/UI/LoadingScreen";
 
 export const Controls = {
   forward: "forward",
@@ -20,7 +21,7 @@ export const Controls = {
 };
 
 function App() {
-  const { gameStage } = useStoreApp();
+  const { gameStage, floorIsMounted, experienceIsMounted } = useStoreApp();
   const map = useMemo(() => [
     { name: Controls.forward, keys: ["ArrowUp", "KeyW"] },
     { name: Controls.back, keys: ["ArrowDown", "KeyS"] },
@@ -38,8 +39,9 @@ function App() {
           </Physics>
         </Suspense>
       </Canvas>
+      {!floorIsMounted && !experienceIsMounted ? <LoadingScreen /> : null}
+      {gameStage === "MENU" && experienceIsMounted ? <Menu /> : null}
       {gameStage === "GAME" ? <Overlay /> : null}
-      {gameStage === "MENU" ? <Menu /> : null}
       {gameStage === "GAME OVER" ? <GameOver /> : null}
       {gameStage === "LOJA" ? <Loja /> : null}
     </KeyboardControls>
