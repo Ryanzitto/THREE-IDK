@@ -7,8 +7,9 @@ Link do deploy: [IDK-GAME](https://ryanzitto.github.io/THREE-IDK/)
 Mova o personagem pressionando as setas ou W A S D.
 
 ```
+npm install
 npm run dev
 
 ```
 
-![image](https://user-images.githubusercontent.com/6551176/221732091-23ee52cb-4150-42fa-b998-43628d7a6b0d.png)
+![image](/public/image.png)
