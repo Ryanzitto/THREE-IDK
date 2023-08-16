@@ -4,7 +4,11 @@ Este projeto nasceu com a necessidade de colocar em prática novos conhecimentos
 
 Link do deploy: [IDK-GAME](https://ryanzitto.github.io/THREE-IDK/)
 
-Mova o personagem pressionando as setas ou W A S D.
+Mova o personagem pressionando as setas ou as teclas W A S D.
+
+E pule pressionando a tecla espaço.
+
+Dica: Evite bolas de praia... elas são extremamente perigosas, e nem todo mago é do bem.
 
 ```
 npm install

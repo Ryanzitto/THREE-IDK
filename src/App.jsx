@@ -9,7 +9,7 @@ import { useStoreApp } from "./store";
 import { GameOver } from "./components/UI/GameOver";
 import { Overlay } from "./components/UI/Overlay";
 import { Loja } from "./components/UI/Loja";
-import { LoadingScreen } from "./components/UI/LoadingScreen";
+import { useEffect } from "react";
 
 export const Controls = {
   forward: "forward",
@@ -21,7 +21,22 @@ export const Controls = {
 };
 
 function App() {
-  const { gameStage, floorIsMounted, experienceIsMounted } = useStoreApp();
+  useEffect(() => {
+    setGameStage("MENU");
+
+    return () => {
+      setGameStage("MENU");
+      setFloorIsMounted(false);
+    };
+  }, []);
+
+  const {
+    gameStage,
+    floorIsMounted,
+    experienceIsMounted,
+    setGameStage,
+    setFloorIsMounted,
+  } = useStoreApp();
   const map = useMemo(() => [
     { name: Controls.forward, keys: ["ArrowUp", "KeyW"] },
     { name: Controls.back, keys: ["ArrowDown", "KeyS"] },
@@ -39,8 +54,7 @@ function App() {
           </Physics>
         </Suspense>
       </Canvas>
-      {!floorIsMounted && !experienceIsMounted ? <LoadingScreen /> : null}
-      {gameStage === "MENU" && experienceIsMounted ? <Menu /> : null}
+      {gameStage === "MENU" ? <Menu /> : null}
       {gameStage === "GAME" ? <Overlay /> : null}
       {gameStage === "GAME OVER" ? <GameOver /> : null}
       {gameStage === "LOJA" ? <Loja /> : null}

@@ -18,7 +18,6 @@ export const DollarController = (props) => {
     const interval = setInterval(() => {
       setRandomPosition();
     }, 10000);
-
     return () => {
       clearInterval(interval);
     };

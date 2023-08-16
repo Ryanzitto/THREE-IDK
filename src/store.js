@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from 'zustand/middleware'
 export const useStoreApp = create(persist((set) => ({
-  experienceIsMounted: false,
   dollarCount: 0,
   randomPosition: [ 3,  3,  3],
   randomPositionBall: [ -2,  2,  1],
@@ -22,12 +21,11 @@ export const useStoreApp = create(persist((set) => ({
   erro: {index: null, message: ""}, 
   skinCoinActual: 0,
   skinAvatarActual: 0,
-  floorIsMounted: false,
 
   setFloorIsMounted: (payload) => set(() => ({floorIsMounted: payload})),
   
   resetErro: () => set(() => ({erro: null})),
-  setExperienceIsMounted: (payload) => set(() => ({experienceIsMounted: payload})),
+
   resetErro: () => set(() => ({erro: null})),
 
   setSkinCoin: (payload) => set(() => ({skinCoinActual: payload})),

@@ -18,15 +18,8 @@ import { Skybox } from "./3D/Skybox";
 export const Experience = () => {
   const skyRef = useRef();
 
-  const {
-    gameStage,
-    skinCoinActual,
-    skinAvatarActual,
-    experienceIsMounted,
-    setExperienceIsMounted,
-    floorIsMounted,
-    setFloorIsMounted,
-  } = useStoreApp();
+  const { gameStage, skinCoinActual, skinAvatarActual, floorIsMounted } =
+    useStoreApp();
 
   useEffect(() => {
     console.log(floorIsMounted);
@@ -52,9 +45,6 @@ export const Experience = () => {
     }
   }, [gameStage]);
 
-  useEffect(() => {
-    setExperienceIsMounted(true);
-  }, []);
   return (
     <>
       <OrbitControls maxPolarAngle={Math.PI / 2} minPolarAngle={Math.PI / 6} />
@@ -69,54 +59,53 @@ export const Experience = () => {
 
       <directionalLight intensity={0.3} />
 
-      {floorIsMounted === true && (
-        <group>
-          {skinAvatarActual === 0 && (
-            <RigidBody position={[0, 0.57, 0]} colliders={false}>
-              <AvatarController />
-            </RigidBody>
-          )}
-          {skinAvatarActual === 1 && (
-            <RigidBody position={[0, 0.57, 0]} colliders={false}>
-              <PirateController />
-            </RigidBody>
-          )}
-          {skinAvatarActual === 2 && (
-            <RigidBody position={[0, 0.57, 0]} colliders={false}>
-              <NinjaController />
-            </RigidBody>
-          )}
+      <group>
+        {skinAvatarActual === 0 && (
+          <RigidBody position={[0, 0.57, 0]} colliders={false}>
+            <AvatarController />
+          </RigidBody>
+        )}
+        {skinAvatarActual === 1 && (
+          <RigidBody position={[0, 0.57, 0]} colliders={false}>
+            <PirateController />
+          </RigidBody>
+        )}
+        {skinAvatarActual === 2 && (
+          <RigidBody position={[0, 0.57, 0]} colliders={false}>
+            <NinjaController />
+          </RigidBody>
+        )}
 
-          {skinCoinActual === 0 && (
-            <group position-y={0.2}>
-              <DollarController />
-            </group>
-          )}
+        {skinCoinActual === 0 && (
+          <group position-y={0.2}>
+            <DollarController />
+          </group>
+        )}
 
-          {skinCoinActual === 1 && (
-            <group position-y={0.8}>
-              <YoshiEggController />
-            </group>
-          )}
-          {skinCoinActual === 2 && (
-            <group position-y={0.1}>
-              <ChestController />
-            </group>
-          )}
+        {skinCoinActual === 1 && (
+          <group position-y={0.8}>
+            <YoshiEggController />
+          </group>
+        )}
+        {skinCoinActual === 2 && (
+          <group position-y={0.1}>
+            <ChestController />
+          </group>
+        )}
 
-          {skinCoinActual === 3 && (
-            <group position-y={4.9}>
-              <ChickenController />
-            </group>
-          )}
+        {skinCoinActual === 3 && (
+          <group position-y={4.9}>
+            <ChickenController />
+          </group>
+        )}
 
-          {gameStage === "GAME" ? <MageController /> : null}
+        {gameStage === "GAME" ? <MageController /> : null}
 
-          {gameStage === "GAME" ? <SpellController /> : null}
+        {gameStage === "GAME" ? <SpellController /> : null}
 
-          {gameStage === "GAME" ? <BallController /> : null}
-        </group>
-      )}
+        {gameStage === "GAME" ? <BallController /> : null}
+      </group>
+
       <RigidBody type="fixed" name="Floor" colliders="hull">
         <group rotation-y={-Math.PI / 1}>
           <Ground position={[5, -0.4, 5]} />
