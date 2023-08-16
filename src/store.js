@@ -1,6 +1,6 @@
 import { create } from "zustand";
-
-export const useStoreApp = create((set) => ({
+import { persist, createJSONStorage } from 'zustand/middleware'
+export const useStoreApp = create(persist((set) => ({
   experienceIsMounted: false,
   dollarCount: 0,
   randomPosition: [ 3,  3,  3],
@@ -90,4 +90,7 @@ setBuy2: (index) => set((state) => {
     return { erro: {index: index, message: "Pontos insuficientes!"}};
   }
 }),
+}),{
+  name: 'game-storage',
+  storage: createJSONStorage(() => localStorage)
 }));
