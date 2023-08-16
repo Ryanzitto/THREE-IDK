@@ -23,7 +23,7 @@ export const Controls = {
 function App() {
   useEffect(() => {
     setGameStage("MENU");
-
+    setFloorIsMounted(false);
     return () => {
       setGameStage("MENU");
       setFloorIsMounted(false);

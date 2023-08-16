@@ -21,10 +21,6 @@ export const Experience = () => {
   const { gameStage, skinCoinActual, skinAvatarActual, floorIsMounted } =
     useStoreApp();
 
-  useEffect(() => {
-    console.log(floorIsMounted);
-  }, [floorIsMounted]);
-
   let trilha = new Audio("audio/trilha.mp3");
 
   const [isPlaying, setIsPlaying] = useState(false);

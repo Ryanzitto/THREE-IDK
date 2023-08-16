@@ -5,7 +5,7 @@ export const Menu = () => {
 
   return (
     <div className="overlay bg-zinc-900/40">
-      {floorIsMounted ? (
+      {floorIsMounted === true ? (
         <div className="menu-content flex flex-col gap-10">
           <h1 className="text-white font-bold text-5xl mb-10">IDK GAME</h1>
           <button
